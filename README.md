@@ -1,4 +1,7 @@
 # ios-corgi-club-app
+
+[![Tuist badge](https://img.shields.io/badge/Powered%20by-Tuist-blue)](https://tuist.io)
+
 Для сборки проека:
 1. git clone git@github.com:Navarayha/ios-corgi-club-app.git
 2. Установить tuist:
