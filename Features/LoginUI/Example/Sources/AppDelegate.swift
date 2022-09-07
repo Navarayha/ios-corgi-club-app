@@ -1,5 +1,6 @@
 import UIKit
 import LoginUI
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,6 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
+        FirebaseApp.configure()
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = LoginViewController()
         window?.makeKeyAndVisible()

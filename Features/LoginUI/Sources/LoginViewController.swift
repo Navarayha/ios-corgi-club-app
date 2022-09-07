@@ -8,7 +8,8 @@
 
 import UIKit
 import Common
-
+import FirebaseAuth
+import FirebaseDatabase
 
 public protocol LoginDelegate {
     func doLogin(vc: UIViewController)
@@ -18,35 +19,41 @@ public class LoginViewController: UIViewController {
     
     private let notificationCentre = NotificationCenter.default
     
+    private let decoder = JSONDecoder()
+//
+    private var databasePath: DatabaseReference? //= {
+//      guard let uid = Auth.auth().currentUser?.uid else {
+//        return nil
+//      }
+//      let ref = Database.database().reference().child("users/\(uid)")
+//      return ref
+//        return DatabaseReference()
+//    }()
+    
     public var delegate: LoginDelegate!
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
-//        scroll.backgroundColor = .blue
         return scroll
     }()
 
     private lazy var contentView: UIView = {
         let content = UIView()
         content.translatesAutoresizingMaskIntoConstraints = false
-
         return content
     }()
     
     private lazy var cicleView: UIView = {
         let view = UIView()
-
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil)
-        
         view.clipsToBounds = true
         return view
     }()
     
     private lazy var logoImage: UIImageView = {
         let image = UIImageView()
-        
         image.image = UIImage(named: "logo", in: LoginUIResources.bundle, compatibleWith: nil)
         image.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +117,6 @@ public class LoginViewController: UIViewController {
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         return button
     }()
     
@@ -121,7 +127,6 @@ public class LoginViewController: UIViewController {
         button.setTitleColor(UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil), for: .normal)
         button.addTarget(self, action: #selector(didTapCreateAccountButtom), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         return button
     }()
     
@@ -132,8 +137,13 @@ public class LoginViewController: UIViewController {
         button.setTitleColor(UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil), for: .normal)
         button.addTarget(self, action: #selector(didTapResetPassButtom), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-
         return button
+    }()
+    
+    private lazy var alert: UIAlertController = {
+        let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .default , handler: nil))
+        return alert
     }()
     
     public override func viewDidLoad() {
@@ -225,35 +235,34 @@ public class LoginViewController: UIViewController {
         
         logoImage.layer.cornerRadius = self.view.layer.bounds.width/6
         cicleView.layer.cornerRadius = self.view.layer.bounds.width
-        print(self.view.layer.bounds.width)
+        
     }
     
     @objc private func didTapLoginButton() {
-        
-        print("didTapLoginButton")
-        
-//        Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
-//
-//            if result != nil && error == nil {
-//                guard let databasePath = databasePath else {
-//                    return
-//                }
-//
-//                databasePath.getData { [self] error, snapshot in
-//                    guard error == nil else {
-//                        print(error!.localizedDescription)
-//                        return;
-//                    }
-//
-//                    var json = snapshot?.value as? [String: Any]
-//                    json?["id"] = snapshot!.key
-//
+
+        Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
+
+            if result != nil && error == nil {
+                
+                alert.title = "Logined success!! \n Result - \(result!), error - nil"
+                self.present(alert, animated: true, completion: nil)
+                
+                guard let databasePath = databasePath else {
+                    return
+                }
+
+                databasePath.getData { error, snapshot in
+                    guard error == nil else {
+                        print(error!.localizedDescription)
+                        return;
+                    }
+
+                    var json = snapshot?.value as? [String: Any]
+                    json?["id"] = snapshot!.key
+
 //                    do {
-//
 //                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
-//
 //                        let user = try self.decoder.decode(User.self, from: userData)
-//
 //                        let vc = ProfileViewController()
 //                        vc.nameView.text = user.name + " " + (user.id ?? "____")
 //                        vc.cityView.text = user.city
@@ -262,15 +271,14 @@ public class LoginViewController: UIViewController {
 //                    } catch {
 //                        print("an error occurred", error)
 //                    }
-//                }
-//            } else if error != nil {
-//                print(error!.localizedDescription)
-//                alert.title = error?.localizedDescription
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//        }
-        
-        
+                }
+            } else if error != nil {
+                print(error!.localizedDescription)
+                alert.title = error?.localizedDescription
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+
     }
     
     //MARK: dismissKeyboardTap
@@ -305,9 +313,7 @@ public class LoginViewController: UIViewController {
 // MARK: - Keyboard
 // сдвигает вью вверх если клавиатура перекрывает выделенное поле ввода
 extension LoginViewController {
-    
-    
-    
+  
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         notificationCentre.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
