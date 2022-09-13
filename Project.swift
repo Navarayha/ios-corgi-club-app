@@ -4,7 +4,10 @@ import ProjectDescriptionHelpers
 // MARK: - Project
 let project = Project.app(name: "CorgiClubApp",
                           platform: .iOS,
-                          externalDependencies: ["JGProgressHUD"],
+                          externalDependencies: [
+                            "FirebaseDatabase",
+                            "FirebaseAuth"
+                          ],
                           targetDependancies: [],
                           moduleTargets: [
                               makeLoginUIModule(),
@@ -13,7 +16,8 @@ let project = Project.app(name: "CorgiClubApp",
                               makeProfileUIModule(),
                               makeMeetingsUIModule(),
                               makeHomeCoordinatorModule(),
-                              makeAuthServiceModule()
+                              makeAuthServiceModule(),
+                              makeCommonUIModule()
                           ])
 
 func makeHomeCoordinatorModule() -> Module {
@@ -23,7 +27,8 @@ func makeHomeCoordinatorModule() -> Module {
                 .target(name: "Common"),
                 .target(name: "LoginUI"),
                 .target(name: "FeedUI"),
-                .target(name: "AuthService")
+//                .target(name: "AuthService")
+                .external(name: "FirebaseAuth")
             ],
             exampleDependencies: [
                 .target(name: "Common"),
@@ -50,7 +55,7 @@ func makeProfileUIModule() -> Module {
     return Module(name: "ProfileUI",
             path: "ProfileUI",
             frameworkDependancies: [.target(name: "Common")],
-            exampleDependencies: [.external(name: "JGProgressHUD")],
+            exampleDependencies: [],
             frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
             exampleResources: ["Resources/**"],
             testResources: [])
@@ -60,7 +65,7 @@ func makeMeetingsUIModule() -> Module {
     return Module(name: "MeetingsUI",
             path: "MeetingsUI",
             frameworkDependancies: [.target(name: "Common")],
-            exampleDependencies: [.external(name: "JGProgressHUD")],
+            exampleDependencies: [],
             frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
             exampleResources: ["Resources/**"],
             testResources: [])
@@ -69,8 +74,13 @@ func makeMeetingsUIModule() -> Module {
 func makeLoginUIModule() -> Module {
     return Module(name: "LoginUI",
             path: "LoginUI",
-            frameworkDependancies: [.target(name: "Common")],
-            exampleDependencies: [.external(name: "JGProgressHUD")],
+                  frameworkDependancies: [
+                      .target(name: "Common"),
+                      .target(name: "CommonUI"),
+                      .external(name: "FirebaseDatabase"),
+                      .external(name: "FirebaseAuth")
+                  ],
+            exampleDependencies: [],
             frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
             exampleResources: ["Resources/**"],
             testResources: [])
@@ -80,7 +90,7 @@ func makeFeedUIModule() -> Module {
     return Module(name: "FeedUI",
             path: "FeedUI",
             frameworkDependancies: [.target(name: "Common")],
-            exampleDependencies: [.external(name: "JGProgressHUD")],
+            exampleDependencies: [],
             frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
             exampleResources: ["Resources/**"],
             testResources: [])
@@ -92,6 +102,17 @@ func makeCommonModule() -> Module {
             frameworkDependancies: [],
             exampleDependencies: [],
             frameworkResources: ["Sources/**/*.xib"],
+            exampleResources: ["Resources/**"],
+            testResources: [],
+            targets: [.framework])
+}
+
+func makeCommonUIModule() -> Module {
+    return Module(name: "CommonUI",
+            path: "CommonUI",
+            frameworkDependancies: [],
+            exampleDependencies: [],
+            frameworkResources: ["Sources/**/*.swift"],
             exampleResources: ["Resources/**"],
             testResources: [],
             targets: [.framework])

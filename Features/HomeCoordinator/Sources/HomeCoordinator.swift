@@ -12,11 +12,11 @@ import LoginUI
 import FeedUI
 import AuthService
 
-public class HomeCoordinator: LoginDelegate {
+public class HomeCoordinator: LoginViewControllerDelegate {
    
-
-    var loginVC = LoginViewController()
     
+    var loginVC = LoginViewController()
+    var navVC = UINavigationController(rootViewController: LoginViewController())
     var feedVC = FeedViewController()
     
     public init() {
@@ -34,16 +34,9 @@ public class HomeCoordinator: LoginDelegate {
     }
     
     public func doLogin(vc: UIViewController) {
-        //vc.present(feedVC, animated: true)
-        
-        if FirebaseAuthService.instance.login(login: "1", password: "2") {
-            let appDelegate = UIApplication.shared.delegate
-            guard let window = appDelegate?.window else { return }
-            window?.rootViewController = feedVC
-        } else {
-            print("wrong pass")
-        }
-
+        vc.navigationController?.navigationBar.isHidden = true
+        vc.navigationController?.pushViewController(feedVC, animated: true)
     }
+
     
 }
