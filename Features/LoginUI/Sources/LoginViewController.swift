@@ -11,7 +11,7 @@ import Common
 import FirebaseAuth
 import FirebaseDatabase
 
-public protocol LoginDelegate {
+public protocol LoginViewControllerDelegate: AnyObject {
     func doLogin(vc: UIViewController)
 }
 
@@ -30,7 +30,7 @@ public class LoginViewController: UIViewController {
 //        return DatabaseReference()
 //    }()
     
-    public var delegate: LoginDelegate!
+    public var delegate: LoginViewControllerDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -240,12 +240,13 @@ public class LoginViewController: UIViewController {
     
     @objc private func didTapLoginButton() {
 
+        
+        
         Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
 
             if result != nil && error == nil {
                 
-                alert.title = "Logined success!! \n Result - \(result!), error - nil"
-                self.present(alert, animated: true, completion: nil)
+                delegate?.doLogin(vc: self)
                 
                 guard let databasePath = databasePath else {
                     return
@@ -260,6 +261,7 @@ public class LoginViewController: UIViewController {
                     var json = snapshot?.value as? [String: Any]
                     json?["id"] = snapshot!.key
 
+                    
 //                    do {
 //                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
 //                        let user = try self.decoder.decode(User.self, from: userData)

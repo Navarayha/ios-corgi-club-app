@@ -4,7 +4,10 @@ import ProjectDescriptionHelpers
 // MARK: - Project
 let project = Project.app(name: "CorgiClubApp",
                           platform: .iOS,
-                          externalDependencies: [],
+                          externalDependencies: [
+                            "FirebaseDatabase",
+                            "FirebaseAuth"
+                          ],
                           targetDependancies: [],
                           moduleTargets: [
                               makeLoginUIModule(),
@@ -23,7 +26,8 @@ func makeHomeCoordinatorModule() -> Module {
                 .target(name: "Common"),
                 .target(name: "LoginUI"),
                 .target(name: "FeedUI"),
-                .target(name: "AuthService")
+//                .target(name: "AuthService")
+                .external(name: "FirebaseAuth")
             ],
             exampleDependencies: [
                 .target(name: "Common"),
