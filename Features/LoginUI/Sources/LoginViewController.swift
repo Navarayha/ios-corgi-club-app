@@ -21,7 +21,7 @@ public class LoginViewController: UIViewController {
     
     private let decoder = JSONDecoder()
 //
-    private var databasePath: DatabaseReference? //= {
+    private var databasePath: DatabaseReference? // = {
 //      guard let uid = Auth.auth().currentUser?.uid else {
 //        return nil
 //      }
@@ -50,6 +50,14 @@ public class LoginViewController: UIViewController {
         view.backgroundColor = UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil)
         view.clipsToBounds = true
         return view
+    }()
+    
+    private lazy var appNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Corgi Club"
+        label.font = UIFont.systemFont(ofSize: 24, weight: .light)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var logoImage: UIImageView = {
@@ -149,15 +157,16 @@ public class LoginViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-//        print(Util.doStuff())
+        self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
     }
     
     private func setup() {
         self.view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         self.contentView.addSubview(cicleView)
         self.contentView.addSubview(logoImage)
-        
+        self.contentView.addSubview(appNameLabel)
         self.contentView.addSubview(LoginViewController.loginView)
         self.contentView.addSubview(LoginViewController.passView)
         self.contentView.addSubview(logInButtom)
@@ -173,8 +182,6 @@ public class LoginViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-        
-        scrollView.addSubview(contentView)
 
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -182,66 +189,70 @@ public class LoginViewController: UIViewController {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+//            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            LoginViewController.loginView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
-            LoginViewController.loginView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 70),
+            LoginViewController.loginView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            LoginViewController.loginView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 70),
             LoginViewController.loginView.centerYAnchor.constraint(equalTo: self.scrollView.centerYAnchor),
             LoginViewController.loginView.heightAnchor.constraint(equalToConstant: 38)
         ])
         
         NSLayoutConstraint.activate([
-            LoginViewController.passView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
-            LoginViewController.passView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 70),
+            LoginViewController.passView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            LoginViewController.passView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 70),
             LoginViewController.passView.topAnchor.constraint(equalTo: LoginViewController.loginView.bottomAnchor, constant: inset),
             LoginViewController.passView.heightAnchor.constraint(equalToConstant: 38),
         ])
         
         NSLayoutConstraint.activate([
             logInButtom.topAnchor.constraint(equalTo: LoginViewController.passView.bottomAnchor, constant: inset*2),
-            logInButtom.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: self.view.layer.bounds.width/3),
-            logInButtom.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            logInButtom.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: self.view.layer.bounds.width/3),
+            logInButtom.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             logInButtom.heightAnchor.constraint(equalToConstant: 50),
         ])
         
         NSLayoutConstraint.activate([
             resetPassButtom.topAnchor.constraint(equalTo: self.logInButtom.bottomAnchor, constant: inset),
-            resetPassButtom.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            resetPassButtom.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             resetPassButtom.heightAnchor.constraint(equalToConstant: 25),
         ])
         
         NSLayoutConstraint.activate([
-            createAccountButtom.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            createAccountButtom.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            createAccountButtom.topAnchor.constraint(equalTo: resetPassButtom.bottomAnchor, constant: inset*10),
+            createAccountButtom.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             createAccountButtom.heightAnchor.constraint(equalToConstant: 25),
-//            createAccountButtom.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            logoImage.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            logoImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             logoImage.widthAnchor.constraint(equalToConstant: self.view.layer.bounds.width/3),
             logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor),
             logoImage.bottomAnchor.constraint(equalTo: LoginViewController.loginView.topAnchor, constant: -self.view.layer.bounds.height/8)
         ])
         
         NSLayoutConstraint.activate([
-            cicleView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            cicleView.centerYAnchor.constraint(equalTo: scrollView.topAnchor, constant: -inset*3),
-            cicleView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 2),
-            cicleView.heightAnchor.constraint(equalTo: cicleView.widthAnchor)
+            appNameLabel.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            appNameLabel.bottomAnchor.constraint(equalTo: self.logoImage.topAnchor, constant: -self.view.layer.bounds.height/16),
+            appNameLabel.heightAnchor.constraint(equalToConstant: 38)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cicleView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            cicleView.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: inset*3),
+            cicleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 2),
+            cicleView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.5)
         ])
         
         logoImage.layer.cornerRadius = self.view.layer.bounds.width/6
         cicleView.layer.cornerRadius = self.view.layer.bounds.width
         
     }
-    
+        
     @objc private func didTapLoginButton() {
 
-        
-        
         Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
 
             if result != nil && error == nil {
@@ -330,10 +341,10 @@ extension LoginViewController {
     
     @objc private func kbdShow(notification: NSNotification) {
         if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.contentInset.bottom = kbdSize.height
+            scrollView.contentInset.bottom = kbdSize.height*1.3
             scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
             NSLayoutConstraint.activate([
-                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14),
+//                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 14),
 //                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -kbdSize.height)
             ])
         }
@@ -344,7 +355,7 @@ extension LoginViewController {
         scrollView.verticalScrollIndicatorInsets = .zero
         
         NSLayoutConstraint.activate([
-            createAccountButtom.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -14),
+//            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14),
 //            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
