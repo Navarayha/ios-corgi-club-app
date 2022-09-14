@@ -17,7 +17,8 @@ let project = Project.app(name: "CorgiClubApp",
                             makeMeetingsUIModule(),
                             makeHomeCoordinatorModule(),
                             makeAuthServiceModule(),
-                            makeCommonUIModule()
+                            makeCommonUIModule(),
+                            makeCreateUserUIModule()
                           ])
 
 func makeHomeCoordinatorModule() -> Module {
@@ -74,6 +75,21 @@ func makeMeetingsUIModule() -> Module {
 func makeLoginUIModule() -> Module {
     return Module(name: "LoginUI",
                   path: "LoginUI",
+                  frameworkDependancies: [
+                    .target(name: "Common"),
+                    .target(name: "CommonUI"),
+                    .external(name: "FirebaseDatabase"),
+                    .external(name: "FirebaseAuth")
+                  ],
+                  exampleDependencies: [],
+                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  exampleResources: ["Resources/**"],
+                  testResources: [])
+}
+
+func makeCreateUserUIModule() -> Module {
+    return Module(name: "CreateUserUI",
+                  path: "CreateUserUI",
                   frameworkDependancies: [
                     .target(name: "Common"),
                     .target(name: "CommonUI"),
