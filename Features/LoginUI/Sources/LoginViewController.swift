@@ -183,13 +183,13 @@ public class LoginViewController: UIViewController {
     }
         
     @objc private func didTapLoginButton() {
-
+        
         Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] result, error in
 
             if result != nil && error == nil {
                 
                 delegate?.doLogin(vc: self)
-                
+                print("login success")
                 guard let databasePath = databasePath else {
                     return
                 }
@@ -203,7 +203,6 @@ public class LoginViewController: UIViewController {
                     var json = snapshot?.value as? [String: Any]
                     json?["id"] = snapshot!.key
 
-                    
 //                    do {
 //                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
 //                        let user = try self.decoder.decode(User.self, from: userData)
