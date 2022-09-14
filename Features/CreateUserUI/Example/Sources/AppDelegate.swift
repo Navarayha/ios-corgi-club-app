@@ -11,9 +11,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
+        
         FirebaseApp.configure()
+        
+        let vc = CreateUserViewController()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: CreateUserViewController())
+        window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
         return true
