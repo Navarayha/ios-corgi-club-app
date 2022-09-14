@@ -1,6 +1,6 @@
 import UIKit
 import CreateUserUI
-import Firebase
+//import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         
-        FirebaseApp.configure()
+//        FirebaseApp.configure()
         
         let vc = CreateUserViewController()
         
