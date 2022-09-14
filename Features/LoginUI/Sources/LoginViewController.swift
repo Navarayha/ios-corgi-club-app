@@ -11,6 +11,7 @@ import Common
 import FirebaseAuth
 import FirebaseDatabase
 import CommonUI
+import CreateUserUI
 
 public protocol LoginViewControllerDelegate: AnyObject {
     func doLogin(vc: UIViewController)
@@ -237,8 +238,8 @@ public class LoginViewController: UIViewController {
     
     @objc private func didTapCreateAccountButtom() {
         print("didTapCreateAccountButtom")
-//        let createAccountVC = CreateAccountViewController()
-//        navigationController?.present(createAccountVC, animated: true)
+        let createAccountVC = CreateUserViewController()
+        self.present(createAccountVC, animated: true)
     }
     
     @objc private func didTapResetPassButtom() {

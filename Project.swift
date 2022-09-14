@@ -78,6 +78,7 @@ func makeLoginUIModule() -> Module {
                   frameworkDependancies: [
                     .target(name: "Common"),
                     .target(name: "CommonUI"),
+                    .target(name: "CreateUserUI"),
                     .external(name: "FirebaseDatabase"),
                     .external(name: "FirebaseAuth")
                   ],

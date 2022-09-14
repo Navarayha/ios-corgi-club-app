@@ -11,7 +11,7 @@ import CommonUI
 //import FirebaseAuth
 //import FirebaseDatabase
 
-class CreateUserViewController: UIViewController {
+public class CreateUserViewController: UIViewController {
     
     let userNameTextField = CommonViews.createTextFieldView(placeholder: "Name", isSecure: false)
     
@@ -41,7 +41,7 @@ class CreateUserViewController: UIViewController {
         return alert
     }()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupController()
@@ -61,7 +61,7 @@ class CreateUserViewController: UIViewController {
         NSLayoutConstraint.activate([
             userNameTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             userNameTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: inset*2),
-            userNameTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: inset),
+            userNameTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: inset*3),
             userNameTextField.heightAnchor.constraint(equalToConstant: 38)
         ])
         
