@@ -44,6 +44,8 @@ public class LoginViewController: UIViewController {
 
     private let resetPassButtom = CommonViews.createWhiteButton(title: "reset password")
     
+    private let appNameLabel = CommonViews.CreateLargeTitleLabelView(title: "Corgi club")
+    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +66,7 @@ public class LoginViewController: UIViewController {
         return view
     }()
     
-    private let appNameLabel = CommonViews.CreateLargeTitleLabelView(title: "Corgi club")
+    
        
     private lazy var logoImage: UIImageView = {
         let image = UIImageView()
@@ -108,9 +110,9 @@ public class LoginViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         NSLayoutConstraint.activate([
@@ -119,7 +121,6 @@ public class LoginViewController: UIViewController {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -170,7 +171,7 @@ public class LoginViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            createAccountButtom.topAnchor.constraint(equalTo: resetPassButtom.bottomAnchor, constant: inset*10),
+            createAccountButtom.topAnchor.constraint(equalTo: resetPassButtom.bottomAnchor, constant: inset*8),
             createAccountButtom.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             createAccountButtom.heightAnchor.constraint(equalToConstant: 25),
             createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
@@ -255,6 +256,7 @@ public class LoginViewController: UIViewController {
 
 // MARK: - Keyboard
 // сдвигает вью вверх если клавиатура перекрывает выделенное поле ввода
+
 extension LoginViewController {
   
     public override func viewWillAppear(_ animated: Bool) {
@@ -271,23 +273,14 @@ extension LoginViewController {
     
     @objc private func kbdShow(notification: NSNotification) {
         if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.contentInset.bottom = kbdSize.height*1.3
+            scrollView.contentInset.bottom = kbdSize.height
             scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
-            NSLayoutConstraint.activate([
-//                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 14),
-//                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -kbdSize.height)
-            ])
         }
     }
     
     @objc private func kbdHide() {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
-        
-        NSLayoutConstraint.activate([
-//            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14),
-//            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
     }
     
 }
