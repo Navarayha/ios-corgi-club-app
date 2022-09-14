@@ -21,4 +21,30 @@ public class CommonViews {
         return button
     }
     
+    public static func createTextFieldView(placeholder: String, isSecure: Bool) -> UITextField {
+        let text = UITextField()
+        text.backgroundColor = .systemGray6
+        text.placeholder = placeholder
+        text.font = UIFont.systemFont(ofSize: 16)
+        text.keyboardType = UIKeyboardType.emailAddress
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 2))
+        text.leftView = leftView
+        text.leftViewMode = .always
+        text.autocapitalizationType = .none
+        text.tintColor = .black
+        text.textColor = .black
+        text.layer.borderWidth = 0.5
+        text.layer.borderColor = UIColor.lightGray.cgColor
+        text.clearButtonMode = .whileEditing
+        text.clearButtonMode = .unlessEditing
+        text.clearButtonMode = .always
+        text.clipsToBounds = true
+        text.layer.cornerRadius = 14
+        text.isSecureTextEntry = isSecure
+        text.translatesAutoresizingMaskIntoConstraints = false
+        return text
+    }
+    
+    
+    
 }

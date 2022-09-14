@@ -31,9 +31,14 @@ public class LoginViewController: UIViewController {
 //        return DatabaseReference()
 //    }()
     
-    private let logInButtom = CommonViews.createColorButtonView(title: "log in")
     
     public var delegate: LoginViewControllerDelegate?
+    
+    private let logInButtom = CommonViews.createColorButtonView(title: "log in")
+    
+    private let loginView = CommonViews.createTextFieldView(placeholder: "email", isSecure: false)
+    
+    private let passView = CommonViews.createTextFieldView(placeholder: "password", isSecure: true)
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -71,55 +76,9 @@ public class LoginViewController: UIViewController {
         image.clipsToBounds = true
         return image
     }()
+    
 
-    static var loginView: UITextField = {
-        let text = UITextField()
-        text.backgroundColor = .systemGray6
-        text.placeholder = "email"
-        text.font = UIFont.systemFont(ofSize: 16)
-        text.keyboardType = UIKeyboardType.emailAddress
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 2))
-        text.leftView = leftView
-        text.leftViewMode = .always
-        text.autocapitalizationType = .none
-        text.tintColor = .black
-        text.textColor = .black
-        text.layer.borderWidth = 0.5
-        text.layer.borderColor = UIColor.lightGray.cgColor
-        text.clearButtonMode = .whileEditing
-        text.clearButtonMode = .unlessEditing
-        text.clearButtonMode = .always
-        text.clipsToBounds = true
-        text.layer.cornerRadius = 14
-//        text.delegate = self
-        text.translatesAutoresizingMaskIntoConstraints = false
-        return text
-    }()
-    
-    static var passView: UITextField = {
-        let password = UITextField()
-        password.backgroundColor = .systemGray6
-        password.placeholder = "password"
-        password.font = UIFont.systemFont(ofSize: 16)
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 2))
-        password.leftView = leftView
-        password.leftViewMode = .always
-        password.autocapitalizationType = .none
-        password.tintColor = .black
-        password.isSecureTextEntry = true
-        password.textColor = .black
-        password.layer.borderWidth = 0.5
-        password.layer.borderColor = UIColor.lightGray.cgColor
-        password.clearButtonMode = .whileEditing
-        password.clearButtonMode = .unlessEditing
-        password.clearButtonMode = .always
-        password.clipsToBounds = true
-        password.layer.cornerRadius = 14
-//        password.delegate = self
-        password.translatesAutoresizingMaskIntoConstraints = false
-        return password
-    }()
-    
+        
     private lazy var createAccountButtom: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
@@ -159,8 +118,8 @@ public class LoginViewController: UIViewController {
         self.contentView.addSubview(cicleView)
         self.contentView.addSubview(logoImage)
         self.contentView.addSubview(appNameLabel)
-        self.contentView.addSubview(LoginViewController.loginView)
-        self.contentView.addSubview(LoginViewController.passView)
+        self.contentView.addSubview(loginView)
+        self.contentView.addSubview(passView)
         self.contentView.addSubview(logInButtom)
         logInButtom.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         self.contentView.addSubview(createAccountButtom)
@@ -186,21 +145,21 @@ public class LoginViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            LoginViewController.loginView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            LoginViewController.loginView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 70),
-            LoginViewController.loginView.centerYAnchor.constraint(equalTo: self.scrollView.centerYAnchor),
-            LoginViewController.loginView.heightAnchor.constraint(equalToConstant: 38)
+            loginView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            loginView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 70),
+            loginView.centerYAnchor.constraint(equalTo: self.scrollView.centerYAnchor),
+            loginView.heightAnchor.constraint(equalToConstant: 38)
         ])
         
         NSLayoutConstraint.activate([
-            LoginViewController.passView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            LoginViewController.passView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 70),
-            LoginViewController.passView.topAnchor.constraint(equalTo: LoginViewController.loginView.bottomAnchor, constant: inset),
-            LoginViewController.passView.heightAnchor.constraint(equalToConstant: 38),
+            passView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            passView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 70),
+            passView.topAnchor.constraint(equalTo: loginView.bottomAnchor, constant: inset),
+            passView.heightAnchor.constraint(equalToConstant: 38),
         ])
         
         NSLayoutConstraint.activate([
-            logInButtom.topAnchor.constraint(equalTo: LoginViewController.passView.bottomAnchor, constant: inset*2),
+            logInButtom.topAnchor.constraint(equalTo: passView.bottomAnchor, constant: inset*2),
             logInButtom.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: self.view.layer.bounds.width/3),
             logInButtom.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             logInButtom.heightAnchor.constraint(equalToConstant: 50),
@@ -223,7 +182,7 @@ public class LoginViewController: UIViewController {
             logoImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             logoImage.widthAnchor.constraint(equalToConstant: self.view.layer.bounds.width/3),
             logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor),
-            logoImage.bottomAnchor.constraint(equalTo: LoginViewController.loginView.topAnchor, constant: -self.view.layer.bounds.height/8)
+            logoImage.bottomAnchor.constraint(equalTo: loginView.topAnchor, constant: -self.view.layer.bounds.height/8)
         ])
         
         NSLayoutConstraint.activate([
@@ -246,7 +205,7 @@ public class LoginViewController: UIViewController {
         
     @objc private func didTapLoginButton() {
 
-        Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
+        Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] result, error in
 
             if result != nil && error == nil {
                 
