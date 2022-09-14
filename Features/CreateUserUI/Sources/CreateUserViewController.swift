@@ -25,15 +25,9 @@ public class CreateUserViewController: UIViewController {
     
     let createUserButton = CommonViews.createColorButtonView(title: "Sign in")
     
-//    private lazy var databasePath = Data
+    var ref: DatabaseReference!
     
-//    private lazy var databasePath: DatabaseReference? = {
-//      guard let uid = Auth.auth().currentUser?.uid else {
-//        return nil
-//      }
-//      let ref = Database.database().reference().child("users/\(uid)")
-//      return ref
-//    }()
+//    let myDataBase = Database.database()
     
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
@@ -45,6 +39,7 @@ public class CreateUserViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupController()
+//        ref = database.database().reference()
     }
 
     private func setupController() {
