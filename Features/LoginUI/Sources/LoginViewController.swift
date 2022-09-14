@@ -40,6 +40,10 @@ public class LoginViewController: UIViewController {
     
     private let passView = CommonViews.createTextFieldView(placeholder: "password", isSecure: true)
     
+    private let createAccountButtom = CommonViews.createWhiteButton(title: "create account")
+
+    private let resetPassButtom = CommonViews.createWhiteButton(title: "reset password")
+    
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -60,14 +64,8 @@ public class LoginViewController: UIViewController {
         return view
     }()
     
-    private lazy var appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Corgi Club"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .light)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+    private let appNameLabel = CommonViews.CreateLargeTitleLabelView(title: "Corgi club")
+       
     private lazy var logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "logo", in: LoginUIResources.bundle, compatibleWith: nil)
@@ -76,29 +74,7 @@ public class LoginViewController: UIViewController {
         image.clipsToBounds = true
         return image
     }()
-    
-
-        
-    private lazy var createAccountButtom: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.setTitle("create account", for: .normal)
-        button.setTitleColor(UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil), for: .normal)
-        button.addTarget(self, action: #selector(didTapCreateAccountButtom), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var resetPassButtom: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.setTitle("reset password", for: .normal)
-        button.setTitleColor(UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil), for: .normal)
-        button.addTarget(self, action: #selector(didTapResetPassButtom), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
+   
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .default , handler: nil))
@@ -123,7 +99,9 @@ public class LoginViewController: UIViewController {
         self.contentView.addSubview(logInButtom)
         logInButtom.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         self.contentView.addSubview(createAccountButtom)
+        createAccountButtom.addTarget(self, action: #selector(didTapCreateAccountButtom), for: .touchUpInside)
         self.contentView.addSubview(resetPassButtom)
+        resetPassButtom.addTarget(self, action: #selector(didTapResetPassButtom), for: .touchUpInside)
         self.view.addGestureRecognizer(tap)
         
         let inset: CGFloat = 14
@@ -142,6 +120,26 @@ public class LoginViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 //            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            logoImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            logoImage.widthAnchor.constraint(equalToConstant: self.view.layer.bounds.width/3),
+            logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor),
+            logoImage.bottomAnchor.constraint(equalTo: loginView.topAnchor, constant: -self.view.layer.bounds.height/8)
+        ])
+        
+        NSLayoutConstraint.activate([
+            appNameLabel.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            appNameLabel.bottomAnchor.constraint(equalTo: self.logoImage.topAnchor, constant: -self.view.layer.bounds.height/16),
+            appNameLabel.heightAnchor.constraint(equalToConstant: 38)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cicleView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            cicleView.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: inset*3),
+            cicleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 2),
+            cicleView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.5)
         ])
         
         NSLayoutConstraint.activate([
@@ -177,27 +175,7 @@ public class LoginViewController: UIViewController {
             createAccountButtom.heightAnchor.constraint(equalToConstant: 25),
             createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
-        NSLayoutConstraint.activate([
-            logoImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            logoImage.widthAnchor.constraint(equalToConstant: self.view.layer.bounds.width/3),
-            logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor),
-            logoImage.bottomAnchor.constraint(equalTo: loginView.topAnchor, constant: -self.view.layer.bounds.height/8)
-        ])
-        
-        NSLayoutConstraint.activate([
-            appNameLabel.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
-            appNameLabel.bottomAnchor.constraint(equalTo: self.logoImage.topAnchor, constant: -self.view.layer.bounds.height/16),
-            appNameLabel.heightAnchor.constraint(equalToConstant: 38)
-        ])
-        
-        NSLayoutConstraint.activate([
-            cicleView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            cicleView.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: inset*3),
-            cicleView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 2),
-            cicleView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.5)
-        ])
-        
+ 
         logoImage.layer.cornerRadius = self.view.layer.bounds.width/6
         cicleView.layer.cornerRadius = self.view.layer.bounds.width
         

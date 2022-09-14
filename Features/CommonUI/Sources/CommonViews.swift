@@ -10,16 +10,30 @@ import UIKit
 
 public class CommonViews {
     
+    // Buttons
+    
     public static func createColorButtonView(title: String) -> UIButton {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "color", in: CommonUIResources.bundle, compatibleWith: nil)
         button.setTitle(title, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize.nextUp)
         button.layer.cornerRadius = 14
         button.layer.masksToBounds = true
-//        button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
+    
+    public static func createWhiteButton(title: String) -> UIButton {
+        let button = UIButton()
+        button.backgroundColor = .white
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize.nextUp)
+        button.setTitleColor(UIColor(named: "color", in: CommonUIResources.bundle, compatibleWith: nil), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+    
+    // TextFields
     
     public static func createTextFieldView(placeholder: String, isSecure: Bool) -> UITextField {
         let text = UITextField()
@@ -45,6 +59,15 @@ public class CommonViews {
         return text
     }
     
+    // Labels
+    
+    public static func CreateLargeTitleLabelView(title: String) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
     
     
 }
