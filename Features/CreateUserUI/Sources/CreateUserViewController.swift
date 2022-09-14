@@ -8,8 +8,8 @@
 
 import UIKit
 import CommonUI
-//import FirebaseAuth
-//import FirebaseDatabase
+import FirebaseAuth
+import FirebaseDatabase
 
 public class CreateUserViewController: UIViewController {
     
@@ -103,16 +103,16 @@ public class CreateUserViewController: UIViewController {
 
     @objc private func didTapCreateUserButtom() {
         print("didTapCreateUserButtom")
-//        Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { [self] authDataResult, error in
+        Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { [self] authDataResult, error in
+
+            if error != nil {
+                print(error!.localizedDescription)
+                alert.title = error?.localizedDescription
+                self.present(alert, animated: true, completion: nil)
+            }
 //
-//            if error != nil {
-//                print(error!.localizedDescription)
-//                alert.title = error?.localizedDescription
-//                self.present(alert, animated: true, completion: nil)
-//            }
-////
-////            takeUid()
-//        }
+//            takeUid()
+        }
     }
     
     //MARK: dismissKeyboardTap

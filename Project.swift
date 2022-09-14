@@ -6,7 +6,7 @@ let project = Project.app(name: "CorgiClubApp",
                           platform: .iOS,
                           externalDependencies: [
                             "FirebaseDatabase",
-                            "FirebaseAuth"
+                            "FirebaseAuth",
                           ],
                           targetDependancies: [],
                           moduleTargets: [
@@ -28,7 +28,7 @@ func makeHomeCoordinatorModule() -> Module {
                     .target(name: "Common"),
                     .target(name: "LoginUI"),
                     .target(name: "FeedUI"),
-                    //                .target(name: "AuthService")
+                    .external(name: "FirebaseDatabase"),
                     .external(name: "FirebaseAuth")
                   ],
                   exampleDependencies: [

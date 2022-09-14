@@ -1,6 +1,6 @@
 import UIKit
 import HomeCoordinator
-import Firebase
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

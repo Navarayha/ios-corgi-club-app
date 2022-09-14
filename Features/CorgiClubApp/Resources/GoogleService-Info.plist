@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1023660043561-sket9ckv0vfv6gqhf5qm9hfmmpng16sq.apps.googleusercontent.com</string>
+	<string>478422316647-v7dclnrf6cn3tp4starevejjpmopieue.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1023660043561-sket9ckv0vfv6gqhf5qm9hfmmpng16sq</string>
+	<string>com.googleusercontent.apps.478422316647-v7dclnrf6cn3tp4starevejjpmopieue</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCYQt_xVfhvnWUBnzCG_d2vfVy7FqwLJJQ</string>
+	<string>AIzaSyD3CN99i4lqjXZQGzXKOw_9UM4XCp3mXsI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1023660043561</string>
+	<string>478422316647</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.mi1212.corgi-club-login-test</string>
+	<string>com.mi1212.CorgiClubApp</string>
 	<key>PROJECT_ID</key>
-	<string>corgi-club-login-test</string>
+	<string>corgi-club</string>
 	<key>STORAGE_BUCKET</key>
-	<string>corgi-club-login-test.appspot.com</string>
+	<string>corgi-club.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1023660043561:ios:7044b8420bc23efef35b38</string>
+	<string>1:478422316647:ios:cd80656d99c7c7f15546c2</string>
 	<key>DATABASE_URL</key>
-	<string>https://corgi-club-login-test-default-rtdb.firebaseio.com</string>
+	<string>https://corgi-club-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

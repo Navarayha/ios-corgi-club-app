@@ -1,6 +1,6 @@
 import UIKit
 import LoginUI
-import Firebase
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
