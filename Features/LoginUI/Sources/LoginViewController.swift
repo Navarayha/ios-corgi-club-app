@@ -10,6 +10,7 @@ import UIKit
 import Common
 import FirebaseAuth
 import FirebaseDatabase
+import CommonUI
 
 public protocol LoginViewControllerDelegate: AnyObject {
     func doLogin(vc: UIViewController)
@@ -29,6 +30,8 @@ public class LoginViewController: UIViewController {
 //      return ref
 //        return DatabaseReference()
 //    }()
+    
+    private let logInButtom = CommonViews.createColorButtonView(title: "log in")
     
     public var delegate: LoginViewControllerDelegate?
     
@@ -117,17 +120,6 @@ public class LoginViewController: UIViewController {
         return password
     }()
     
-    private lazy var logInButtom: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor(named: "color", in: LoginUIResources.bundle, compatibleWith: nil)
-        button.setTitle("log in", for: .normal)
-        button.layer.cornerRadius = 14
-        button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private lazy var createAccountButtom: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
@@ -170,6 +162,7 @@ public class LoginViewController: UIViewController {
         self.contentView.addSubview(LoginViewController.loginView)
         self.contentView.addSubview(LoginViewController.passView)
         self.contentView.addSubview(logInButtom)
+        logInButtom.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         self.contentView.addSubview(createAccountButtom)
         self.contentView.addSubview(resetPassButtom)
         self.view.addGestureRecognizer(tap)
