@@ -1,4 +1,4 @@
-_# ios-corgi-club-app
+# ios-corgi-club-app
 
 [![Tuist badge](https://img.shields.io/badge/Powered%20by-Tuist-blue)](https://tuist.io)
 
@@ -39,6 +39,7 @@ brew install CocoaPods
    ```bash
    ./generate-with-pods.sh
    ```
+Далее должно открыться окно XCode.   
 
 ## Генерация проекта частично для разрабатываемого модуля
 
