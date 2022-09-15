@@ -8,8 +8,8 @@
 
 import UIKit
 import CommonUI
-//import FirebaseAuth
-//import FirebaseDatabase
+import FirebaseAuth
+import FirebaseDatabase
 
 public class CreateUserViewController: UIViewController {
     
@@ -25,21 +25,30 @@ public class CreateUserViewController: UIViewController {
     
     let createUserButton = CommonViews.createColorButtonView(title: "Sign in")
     
-//    var ref: DatabaseReference!
-    
-//    let myDataBase = Database.database()
-    
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .default , handler: nil))
         return alert
     }()
     
+    private let encoder = JSONEncoder()
+    
+    private let decoder = JSONDecoder()
+    
+    private lazy var databasePath: DatabaseReference? = {
+      
+        guard let uid = Auth.auth().currentUser?.uid else {
+        return nil
+      }
+
+      let ref = Database.database().reference().child("users/\(uid)")
+      return ref
+    }()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupController()
-//        ref = database.database().reference()
     }
 
     private func setupController() {
@@ -105,9 +114,47 @@ public class CreateUserViewController: UIViewController {
 //                alert.title = error?.localizedDescription
 //                self.present(alert, animated: true, completion: nil)
 //            }
-////
-////            takeUid()
+//
 //        }
+        
+        if let name = userNameTextField.text,let secondName = userSecondNameTextField.text, let login = emailTextField.text, let password = passwordTextField.text {
+            Auth.auth().createUser(withEmail: login, password: password) { [self] authDataResult, error in
+                
+                
+//                print(error)
+                // Возвращает ранее определенный путь к базе данных.
+                guard let databasePath = databasePath else {
+                    return
+                }
+
+                // Создает объект Модели user из текста.
+                let user = UserCorgi(name: name, secondName: secondName, login: login)
+
+                do {
+                    // Кодирует модель user в данные JSON
+                    let data = try encoder.encode(user)
+
+                    // Преобразует данные JSON в словарь JSON
+                    let json = try JSONSerialization.jsonObject(with: data)
+
+                    //  Записывает словарь в путь к базе данных как дочерний узел с автоматически сгенерированным идентификатором.
+                    databasePath.setValue(json)
+                    
+                    if authDataResult != nil {
+//                        LoginViewController.loginView.text = login
+//                        LoginViewController.passView.text = password
+//                        self.dismiss(animated: true)
+                        alert.title = authDataResult?.user.uid
+                        self.present(alert, animated: true, completion: nil)
+                    }
+
+                } catch {
+                    alert.title = error.localizedDescription
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        
     }
     
     //MARK: dismissKeyboardTap

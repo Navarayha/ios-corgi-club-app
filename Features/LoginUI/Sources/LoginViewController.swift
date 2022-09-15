@@ -8,8 +8,8 @@
 
 import UIKit
 import Common
-//import FirebaseAuth
-//import FirebaseDatabase
+import FirebaseAuth
+import FirebaseDatabase
 import CommonUI
 import CreateUserUI
 
@@ -23,17 +23,13 @@ public class LoginViewController: UIViewController {
     private let notificationCentre = NotificationCenter.default
     
     private let decoder = JSONDecoder()
-//
 
-//    private var databasePath: DatabaseReference? // = {
-
-//    private var databasePath: DatabaseReference? // = {
+//    private var databasePath: DatabaseReference? = {
 //      guard let uid = Auth.auth().currentUser?.uid else {
 //        return nil
 //      }
 //      let ref = Database.database().reference().child("users/\(uid)")
 //      return ref
-//        return DatabaseReference()
 //    }()
 
     public var delegate: LoginViewControllerDelegate?
@@ -243,8 +239,8 @@ public class LoginViewController: UIViewController {
 
     @objc private func didTapCreateAccountButtom() {
         print("didTapCreateAccountButtom")
-//        let createAccountVC = CreateUserViewController()
-//        self.present(createAccountVC, animated: true)
+        let createAccountVC = CreateUserViewController()
+        self.present(createAccountVC, animated: true)
     }
     
     @objc private func didTapResetPassButtom() {

@@ -72,7 +72,8 @@ func makeLoginUIModule() -> Module {
             path: "LoginUI",
                   frameworkDependancies: [
                       .target(name: "Common"),
-                      .target(name: "CommonUI")
+                      .target(name: "CommonUI"),
+                      .target(name: "CreateUserUI"),
                   ],
             exampleDependencies: [],
             frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
