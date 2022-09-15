@@ -8,8 +8,8 @@
 
 import UIKit
 import Common
-import FirebaseAuth
-import FirebaseDatabase
+//import FirebaseAuth
+//import FirebaseDatabase
 
 public protocol LoginViewControllerDelegate: AnyObject {
     func doLogin(vc: UIViewController)
@@ -21,7 +21,7 @@ public class LoginViewController: UIViewController {
     
     private let decoder = JSONDecoder()
 //
-    private var databasePath: DatabaseReference? // = {
+//    private var databasePath: DatabaseReference? // = {
 //      guard let uid = Auth.auth().currentUser?.uid else {
 //        return nil
 //      }
@@ -253,44 +253,44 @@ public class LoginViewController: UIViewController {
         
     @objc private func didTapLoginButton() {
 
-        Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
-
-            if result != nil && error == nil {
-                
-                delegate?.doLogin(vc: self)
-                
-                guard let databasePath = databasePath else {
-                    return
-                }
-
-                databasePath.getData { error, snapshot in
-                    guard error == nil else {
-                        print(error!.localizedDescription)
-                        return;
-                    }
-
-                    var json = snapshot?.value as? [String: Any]
-                    json?["id"] = snapshot!.key
-
-                    
-//                    do {
-//                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
-//                        let user = try self.decoder.decode(User.self, from: userData)
-//                        let vc = ProfileViewController()
-//                        vc.nameView.text = user.name + " " + (user.id ?? "____")
-//                        vc.cityView.text = user.city
-//                        self.navigationController?.pushViewController(vc, animated: true)
+//        Auth.auth().signIn(withEmail: LoginViewController.loginView.text!, password: LoginViewController.passView.text!) { [self] result, error in
 //
-//                    } catch {
-//                        print("an error occurred", error)
+//            if result != nil && error == nil {
+//                
+//                delegate?.doLogin(vc: self)
+//                
+//                guard let databasePath = databasePath else {
+//                    return
+//                }
+//
+//                databasePath.getData { error, snapshot in
+//                    guard error == nil else {
+//                        print(error!.localizedDescription)
+//                        return;
 //                    }
-                }
-            } else if error != nil {
-                print(error!.localizedDescription)
-                alert.title = error?.localizedDescription
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
+//
+//                    var json = snapshot?.value as? [String: Any]
+//                    json?["id"] = snapshot!.key
+//
+//                    
+////                    do {
+////                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
+////                        let user = try self.decoder.decode(User.self, from: userData)
+////                        let vc = ProfileViewController()
+////                        vc.nameView.text = user.name + " " + (user.id ?? "____")
+////                        vc.cityView.text = user.city
+////                        self.navigationController?.pushViewController(vc, animated: true)
+////
+////                    } catch {
+////                        print("an error occurred", error)
+////                    }
+//                }
+//            } else if error != nil {
+//                print(error!.localizedDescription)
+//                alert.title = error?.localizedDescription
+//                self.present(alert, animated: true, completion: nil)
+//            }
+//        }
 
     }
     
