@@ -8,10 +8,11 @@
 
 import UIKit
 import Common
-import FirebaseAuth
-import FirebaseDatabase
+//import FirebaseAuth
+//import FirebaseDatabase
 import CommonUI
 import CreateUserUI
+
 
 public protocol LoginViewControllerDelegate: AnyObject {
     func doLogin(vc: UIViewController)
@@ -23,7 +24,10 @@ public class LoginViewController: UIViewController {
     
     private let decoder = JSONDecoder()
 //
-    private var databasePath: DatabaseReference? // = {
+
+//    private var databasePath: DatabaseReference? // = {
+
+//    private var databasePath: DatabaseReference? // = {
 //      guard let uid = Auth.auth().currentUser?.uid else {
 //        return nil
 //      }
@@ -31,8 +35,7 @@ public class LoginViewController: UIViewController {
 //      return ref
 //        return DatabaseReference()
 //    }()
-    
-    
+
     public var delegate: LoginViewControllerDelegate?
     
     private let logInButtom = CommonViews.createColorButtonView(title: "log in")
@@ -76,6 +79,7 @@ public class LoginViewController: UIViewController {
         return image
     }()
    
+
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .default , handler: nil))
@@ -120,7 +124,6 @@ public class LoginViewController: UIViewController {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -182,49 +185,6 @@ public class LoginViewController: UIViewController {
         
     }
         
-    @objc private func didTapLoginButton() {
-
-        Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] result, error in
-
-            if result != nil && error == nil {
-                
-                delegate?.doLogin(vc: self)
-                
-                guard let databasePath = databasePath else {
-                    return
-                }
-
-                databasePath.getData { error, snapshot in
-                    guard error == nil else {
-                        print(error!.localizedDescription)
-                        return;
-                    }
-
-                    var json = snapshot?.value as? [String: Any]
-                    json?["id"] = snapshot!.key
-
-                    
-//                    do {
-//                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
-//                        let user = try self.decoder.decode(User.self, from: userData)
-//                        let vc = ProfileViewController()
-//                        vc.nameView.text = user.name + " " + (user.id ?? "____")
-//                        vc.cityView.text = user.city
-//                        self.navigationController?.pushViewController(vc, animated: true)
-//
-//                    } catch {
-//                        print("an error occurred", error)
-//                    }
-                }
-            } else if error != nil {
-                print(error!.localizedDescription)
-                alert.title = error?.localizedDescription
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-
-    }
-    
     //MARK: dismissKeyboardTap
     
     private lazy var tap: UITapGestureRecognizer = {
@@ -235,23 +195,61 @@ public class LoginViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+
+    //MARK: - objc buttons funcs
     
+    @objc private func didTapLoginButton() {
+
+//        Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] result, error in
+//
+//            if result != nil && error == nil {
+//                
+//                delegate?.doLogin(vc: self)
+//                
+//                guard let databasePath = databasePath else {
+//                    return
+//                }
+//
+//                databasePath.getData { error, snapshot in
+//                    guard error == nil else {
+//                        print(error!.localizedDescription)
+//                        return;
+//                    }
+//
+//                    var json = snapshot?.value as? [String: Any]
+//                    json?["id"] = snapshot!.key
+//
+//                    
+////                    do {
+////                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
+////                        let user = try self.decoder.decode(User.self, from: userData)
+////                        let vc = ProfileViewController()
+////                        vc.nameView.text = user.name + " " + (user.id ?? "____")
+////                        vc.cityView.text = user.city
+////                        self.navigationController?.pushViewController(vc, animated: true)
+////
+////                    } catch {
+////                        print("an error occurred", error)
+////                    }
+//                }
+//            } else if error != nil {
+//                print(error!.localizedDescription)
+//                alert.title = error?.localizedDescription
+//                self.present(alert, animated: true, completion: nil)
+//            }
+//        }
+
+    }
+
     @objc private func didTapCreateAccountButtom() {
         print("didTapCreateAccountButtom")
-        let createAccountVC = CreateUserViewController()
-        self.present(createAccountVC, animated: true)
+//        let createAccountVC = CreateUserViewController()
+//        self.present(createAccountVC, animated: true)
     }
     
     @objc private func didTapResetPassButtom() {
         print("didTapResetPassButtom")
     }
-       
-    @objc func loginPressed() {
-//        delegate.doLogin(vc: self)
-        print("delegate")
-    }
-    
-
 }
 
 // MARK: - Keyboard
@@ -274,21 +272,12 @@ extension LoginViewController {
         if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = kbdSize.height*1.3
             scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
-            NSLayoutConstraint.activate([
-//                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 14),
-//                createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -kbdSize.height)
-            ])
         }
     }
     
     @objc private func kbdHide() {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
-        
-        NSLayoutConstraint.activate([
-//            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14),
-//            createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
     }
     
 }

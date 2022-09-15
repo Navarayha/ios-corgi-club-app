@@ -8,8 +8,8 @@
 
 import UIKit
 import CommonUI
-import FirebaseAuth
-import FirebaseDatabase
+//import FirebaseAuth
+//import FirebaseDatabase
 
 public class CreateUserViewController: UIViewController {
     
@@ -25,7 +25,7 @@ public class CreateUserViewController: UIViewController {
     
     let createUserButton = CommonViews.createColorButtonView(title: "Sign in")
     
-    var ref: DatabaseReference!
+//    var ref: DatabaseReference!
     
 //    let myDataBase = Database.database()
     
@@ -98,16 +98,16 @@ public class CreateUserViewController: UIViewController {
 
     @objc private func didTapCreateUserButtom() {
         print("didTapCreateUserButtom")
-        Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { [self] authDataResult, error in
-
-            if error != nil {
-                print(error!.localizedDescription)
-                alert.title = error?.localizedDescription
-                self.present(alert, animated: true, completion: nil)
-            }
+//        Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { [self] authDataResult, error in
 //
-//            takeUid()
-        }
+//            if error != nil {
+//                print(error!.localizedDescription)
+//                alert.title = error?.localizedDescription
+//                self.present(alert, animated: true, completion: nil)
+//            }
+////
+////            takeUid()
+//        }
     }
     
     //MARK: dismissKeyboardTap

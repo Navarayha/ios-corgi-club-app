@@ -42,3 +42,4 @@ Derived/
 Tuist/Dependencies/
 
 .idea
+/Podfile.lock
