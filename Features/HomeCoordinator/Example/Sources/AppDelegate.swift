@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         var homeCoordinator = HomeCoordinator()
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = homeCoordinator.configureLoginVC()
+        window?.rootViewController = UINavigationController(rootViewController: homeCoordinator.configureLoginVC())
         window?.makeKeyAndVisible()
 
         return true

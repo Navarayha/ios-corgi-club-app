@@ -7,33 +7,20 @@
 //
 
 import UIKit
-import CommonUI
 import Common
-
+import CommonUI
 import CreateUserUI
-import FirebaseAuth
-import FirebaseDatabase
-
-
 
 public protocol LoginViewControllerDelegate: AnyObject {
-    func doLogin(vc: UIViewController)
+    func doLogin(mail: String, password: String)
 }
 
 public class LoginViewController: UIViewController {
     
     private let notificationCentre = NotificationCenter.default
     
-    private let decoder = JSONDecoder()
-    
-//    private var databasePath: DatabaseReference? = {
-//        guard let uid = Auth.auth().currentUser?.uid else {
-//            return nil
-//        }
-//        let ref = Database.database().reference().child("users/\(uid)")
-//        return ref
-//    }()
-    
+//    private let decoder = JSONDecoder()
+ 
     public var delegate: LoginViewControllerDelegate?
     
     private let logInButtom = CommonViews.createColorButtonView(title: "log in")
@@ -77,7 +64,6 @@ public class LoginViewController: UIViewController {
         return image
     }()
     
-    
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .default , handler: nil))
@@ -86,12 +72,12 @@ public class LoginViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupViews()
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
     }
     
-    private func setup() {
+    private func setupViews() {
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         self.contentView.addSubview(cicleView)
@@ -198,60 +184,25 @@ public class LoginViewController: UIViewController {
     
     @objc private func didTapLoginButton() {
         
-        Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] authResult, error in
-            
-            print("\(authResult?.description), error - \(error ?? nil)")
-            
+        delegate?.doLogin(mail: loginView.text!, password: passView.text!)
+        
+        /* необходимо перенести в HomeCoordinator
+        
+        Auth.auth().signIn(withEmail: loginView.text ?? "", password: passView.text ?? "") { [self] authResult, error in
+  
             if authResult != nil && error == nil {
+                alert.title = authResult!.user.uid
+                self.present(alert, animated: true, completion: nil)
                 
-                delegate?.doLogin(vc: self)
                 
-                let uid = authResult?.user.uid
-                
-                let databasePath = Database.database().reference().child("users/\(uid)")
-                
-                Auth.auth().addStateDidChangeListener { _, user in
-                    print(user?.uid)
-                }
-                
-                databasePath.getData { error, snapshot in
-                    
-                    print("\(snapshot?.description ?? nil), error - \(error ?? nil)")
-                    
-                    guard error == nil else {
-//                        print(error!.localizedDescription)
-                        return;
-                    }
-                    
-                    var json = snapshot?.value as? [String: Any]
-                    json?["id"] = snapshot!.key
-                    
-                    //                    alert.title = authResult?.description
-                    //                    self.present(alert, animated: true, completion: nil)
-                    
-                    
-                    do {
-                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
-                        
-//                        let user = try self.decoder.decode(UserCorgi.self, from: userData)
-//
-//                        alert.title = "Login " + user.id + " " + user.name
-                        print("do")
-                        alert.title = snapshot?.key
-                        self.present(alert, animated: true, completion: nil)
-                        
-                    } catch {
-                        print("error")
-//                        print("an error occurred", error)
-                    }
-                }
             } else if error != nil {
                 print(error!.localizedDescription)
                 alert.title = error?.localizedDescription
                 self.present(alert, animated: true, completion: nil)
             }
         }
-        
+         
+        */
     }
     
     @objc private func didTapCreateAccountButtom() {
@@ -266,7 +217,9 @@ public class LoginViewController: UIViewController {
 }
 
 // MARK: - Keyboard
+
 // сдвигает вью вверх если клавиатура перекрывает выделенное поле ввода
+
 extension LoginViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
