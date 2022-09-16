@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Common
 import CommonUI
+import Common
+
 import CreateUserUI
 import FirebaseAuth
 import FirebaseDatabase
@@ -25,13 +26,13 @@ public class LoginViewController: UIViewController {
     
     private let decoder = JSONDecoder()
     
-    private var databasePath: DatabaseReference? = {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return nil
-        }
-        let ref = Database.database().reference().child("users/\(uid)")
-        return ref
-    }()
+//    private var databasePath: DatabaseReference? = {
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            return nil
+//        }
+//        let ref = Database.database().reference().child("users/\(uid)")
+//        return ref
+//    }()
     
     public var delegate: LoginViewControllerDelegate?
     
@@ -199,6 +200,8 @@ public class LoginViewController: UIViewController {
         
         Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] authResult, error in
             
+            print("\(authResult?.description), error - \(error ?? nil)")
+            
             if authResult != nil && error == nil {
                 
                 delegate?.doLogin(vc: self)
@@ -212,8 +215,11 @@ public class LoginViewController: UIViewController {
                 }
                 
                 databasePath.getData { error, snapshot in
+                    
+                    print("\(snapshot?.description ?? nil), error - \(error ?? nil)")
+                    
                     guard error == nil else {
-                        print(error!.localizedDescription)
+//                        print(error!.localizedDescription)
                         return;
                     }
                     
@@ -227,13 +233,16 @@ public class LoginViewController: UIViewController {
                     do {
                         let userData = try JSONSerialization.data(withJSONObject: json as Any)
                         
-                        let user = try self.decoder.decode(UserCorgi.self, from: userData)
-                        
-                        alert.title = "Login " + user.secondName + " " + user.name
+//                        let user = try self.decoder.decode(UserCorgi.self, from: userData)
+//
+//                        alert.title = "Login " + user.id + " " + user.name
+                        print("do")
+                        alert.title = snapshot?.key
                         self.present(alert, animated: true, completion: nil)
                         
                     } catch {
-                        print("an error occurred", error)
+                        print("error")
+//                        print("an error occurred", error)
                     }
                 }
             } else if error != nil {

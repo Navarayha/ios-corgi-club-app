@@ -1,12 +1,11 @@
 platform :ios, '13.0'
 
-target 'LoginUIExampleApp' do
+target 'HomeCoordinatorExampleApp' do
   use_frameworks!
 
   # add pods for desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
-  pod 'FirebaseAuth'
-  pod 'FirebaseDatabase'
+  pod 'Firebase'
 
 end
 

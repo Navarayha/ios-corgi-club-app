@@ -140,7 +140,7 @@ public class CreateUserViewController: UIViewController {
 
                     //  Записывает словарь в путь к базе данных как дочерний узел с автоматически сгенерированным идентификатором.
                     databasePath.setValue(json)
-                    
+
                     if authDataResult != nil {
                         //алерт с uid юзера
                         alert.title = authDataResult?.user.uid
