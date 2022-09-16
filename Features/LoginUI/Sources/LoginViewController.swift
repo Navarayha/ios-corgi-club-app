@@ -10,6 +10,7 @@ import UIKit
 import Common
 //import FirebaseAuth
 //import FirebaseDatabase
+import Firebase
 
 public protocol LoginViewControllerDelegate: AnyObject {
     func doLogin(vc: UIViewController)
