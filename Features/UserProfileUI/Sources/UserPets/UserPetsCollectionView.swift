@@ -1,5 +1,5 @@
 //
-//  UserPetsCollectionVC.swift
+//  UserPetsCollectionView.swift
 //  UserProfileUI
 //
 //  Created by Микаэл Мартиросян on 15.09.2022.
@@ -10,7 +10,14 @@ import UIKit
 
 class UserPetsCollectionView: UICollectionView {
     
-    let petsAvatar = [UIImage(systemName: "person")!, UIImage(systemName: "person")!, UIImage(systemName: "person")!]
+    var userPets = [UserPetsModel]()
+    
+    var addPetButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.image = UIImage(systemName: "plus")
+        button.tintColor = .orange
+        return button
+    }()
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -19,22 +26,41 @@ class UserPetsCollectionView: UICollectionView {
         
         delegate = self
         dataSource = self
+        
+        register(UserPetsCell.self, forCellWithReuseIdentifier: UserPetsCell.reuseID)
+        
+        showsHorizontalScrollIndicator = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func addPet(userPets: [UserPetsModel]) {
+        self.userPets = userPets
+    }
+    
 }
 
 extension UserPetsCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        return userPets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserPetsCell.reuseID, for: indexPath) as! UserPetsCell
+        cell.petAvatar.image = userPets[indexPath.item].avatar
+        cell.petName.text = userPets[indexPath.item].name
+        
+        return cell
     }
+}
+
+extension UserPetsCollectionView: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 60, height: 80)
+    }
     
 }

@@ -11,6 +11,7 @@ import Common
 import LoginUI
 import FeedUI
 import AuthService
+import UserProfileUI
 
 public class HomeCoordinator: LoginDelegate {
    
@@ -39,7 +40,7 @@ public class HomeCoordinator: LoginDelegate {
         if FirebaseAuthService.instance.login(login: "1", password: "2") {
             let appDelegate = UIApplication.shared.delegate
             guard let window = appDelegate?.window else { return }
-            window?.rootViewController = feedVC
+            window?.rootViewController = TabBarController()
         } else {
             print("wrong pass")
         }

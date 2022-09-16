@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+enum Title: String {
+    case profileID = "Test"
+}

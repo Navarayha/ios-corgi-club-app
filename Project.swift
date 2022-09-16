@@ -13,7 +13,8 @@ let project = Project.app(name: "CorgiClubApp",
                               makeProfileUIModule(),
                               makeMeetingsUIModule(),
                               makeHomeCoordinatorModule(),
-                              makeAuthServiceModule()
+                              makeAuthServiceModule(),
+                              makeUserProfileUIModule()
                           ])
 
 func makeHomeCoordinatorModule() -> Module {
@@ -79,6 +80,16 @@ func makeLoginUIModule() -> Module {
 func makeFeedUIModule() -> Module {
     return Module(name: "FeedUI",
             path: "FeedUI",
+            frameworkDependancies: [.target(name: "Common")],
+            exampleDependencies: [.external(name: "JGProgressHUD")],
+            frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+            exampleResources: ["Resources/**"],
+            testResources: [])
+}
+
+func makeUserProfileUIModule() -> Module {
+    return Module(name: "UserProfileUI",
+            path: "UserProfileUI",
             frameworkDependancies: [.target(name: "Common")],
             exampleDependencies: [.external(name: "JGProgressHUD")],
             frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
