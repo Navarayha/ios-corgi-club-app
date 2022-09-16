@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct User: Identifiable, Codable {
-    var id: String?
+public struct UserCorgi: Identifiable, Codable {
+    public var id: String?
     var name: String
-    var city: String
+    var secondName: String
+    var login: String
   }

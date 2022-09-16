@@ -8,11 +8,9 @@
 
 import Foundation
 import Common
-im
 
-public class FirebaseAuthService: AuthService {
+public class FakeAuthService: AuthService {
 
-    public static var instance = FirebaseAuthService()
     
     public func login(login: String, password: String) -> Bool {
         print("you are loggedin")
@@ -24,9 +22,7 @@ public class FirebaseAuthService: AuthService {
         return true
     }
     
-    private init() {
-        Firebse
-    }
+    private init() { }
     
     
 }
