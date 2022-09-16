@@ -10,14 +10,15 @@ let project = Project.app(name: "CorgiClubApp",
                           ],
                           targetDependancies: [],
                           moduleTargets: [
-                            makeLoginUIModule(),
-                            makeCommonModule(),
-                            makeFeedUIModule(),
-                            makeProfileUIModule(),
-                            makeMeetingsUIModule(),
-                            makeHomeCoordinatorModule(),
-                            makeAuthServiceModule(),
-                            makeCommonUIModule()
+                              makeLoginUIModule(),
+                              makeCommonModule(),
+                              makeFeedUIModule(),
+                              makeProfileUIModule(),
+                              makeMeetingsUIModule(),
+                              makeHomeCoordinatorModule(),
+                              makeAuthServiceModule(),
+                              makeUserProfileUIModule(),
+                                makeCommonUIModule()
                           ])
 
 func makeHomeCoordinatorModule() -> Module {
@@ -97,6 +98,16 @@ func makeFeedUIModule() -> Module {
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
+}
+
+func makeUserProfileUIModule() -> Module {
+    return Module(name: "UserProfileUI",
+            path: "UserProfileUI",
+            frameworkDependancies: [.target(name: "Common")],
+            exampleDependencies: [.external(name: "JGProgressHUD")],
+            frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+            exampleResources: ["Resources/**"],
+            testResources: [])
 }
 
 func makeCommonModule() -> Module {
