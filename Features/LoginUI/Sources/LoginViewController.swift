@@ -11,10 +11,6 @@ import Common
 import CommonUI
 import CreateUserUI
 
-public protocol LoginViewControllerDelegate: AnyObject {
-    func doLogin(mail: String, password: String)
-}
-
 public class LoginViewController: UIViewController {
     
     private let notificationCentre = NotificationCenter.default

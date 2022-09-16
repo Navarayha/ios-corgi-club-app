@@ -13,7 +13,8 @@ let project = Project.app(name: "CorgiClubApp",
                             makeProfileUIModule(),
                             makeMeetingsUIModule(),
                             makeHomeCoordinatorModule(),
-                            makeAuthServiceModule(),
+                            makeFakeServiceModule(),
+                              makeFirebaseServiceModule(),
                             makeCommonUIModule(),
                             makeCreateUserUIModule()
                           ])
@@ -30,21 +31,31 @@ func makeHomeCoordinatorModule() -> Module {
                     .target(name: "Common"),
                     .target(name: "LoginUI"),
                     .target(name: "FeedUI"),
-                    .target(name: "AuthService")
+                    .target(name: "FakeAuthService")
                   ],
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
 
-func makeAuthServiceModule() -> Module {
-    return Module(name: "AuthService",
-                  path: "AuthService",
+func makeFakeServiceModule() -> Module {
+    return Module(name: "FakeAuthService",
+                  path: "FakeAuthService",
                   frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [.target(name: "Common")],
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
+}
+
+func makeFirebaseServiceModule() -> Module {
+    return Module(name: "FirebaseAuthService",
+            path: "FirebaseAuthService",
+            frameworkDependancies: [.target(name: "Common")],
+            exampleDependencies: [.target(name: "Common")],
+            frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+            exampleResources: ["Resources/**"],
+            testResources: [])
 }
 
 func makeProfileUIModule() -> Module {

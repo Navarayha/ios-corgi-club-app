@@ -14,13 +14,13 @@ import AuthService
 
 public class HomeCoordinator: LoginViewControllerDelegate {
    
-    
+    var authService: AuthService!
     var loginVC = LoginViewController()
     var navVC = UINavigationController(rootViewController: LoginViewController())
     var feedVC = FeedViewController()
     
-    public init() {
-        
+    public init(authService: AuthService) {
+        self.authService = authService
     }
     
     
@@ -32,10 +32,15 @@ public class HomeCoordinator: LoginViewControllerDelegate {
     public func configureFeedVC() {
         
     }
-    
-    public func doLogin(vc: UIViewController) {
-        vc.navigationController?.navigationBar.isHidden = true
-        vc.navigationController?.pushViewController(feedVC, animated: true)
+
+    func doLogin(mail: String, password: String) {
+        
+        if authService.login(login: mail, password: password) {
+            vc.navigationController?.navigationBar.isHidden = true
+            vc.navigationController?.pushViewController(feedVC, animated: true)
+        } else {
+            print("Login error")
+        }
     }
 
     
