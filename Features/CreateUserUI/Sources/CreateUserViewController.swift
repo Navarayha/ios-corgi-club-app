@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Common
 import CommonUI
 import FirebaseAuth
 import FirebaseDatabase
@@ -141,9 +142,7 @@ public class CreateUserViewController: UIViewController {
                     databasePath.setValue(json)
                     
                     if authDataResult != nil {
-//                        LoginViewController.loginView.text = login
-//                        LoginViewController.passView.text = password
-//                        self.dismiss(animated: true)
+                        //алерт с uid юзера
                         alert.title = authDataResult?.user.uid
                         self.present(alert, animated: true, completion: nil)
                     }

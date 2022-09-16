@@ -8,10 +8,11 @@
 
 import UIKit
 import Common
-import FirebaseAuth
-import FirebaseDatabase
 import CommonUI
 import CreateUserUI
+import FirebaseAuth
+import FirebaseDatabase
+
 
 
 public protocol LoginViewControllerDelegate: AnyObject {
@@ -23,15 +24,15 @@ public class LoginViewController: UIViewController {
     private let notificationCentre = NotificationCenter.default
     
     private let decoder = JSONDecoder()
-
-//    private var databasePath: DatabaseReference? = {
-//      guard let uid = Auth.auth().currentUser?.uid else {
-//        return nil
-//      }
-//      let ref = Database.database().reference().child("users/\(uid)")
-//      return ref
-//    }()
-
+    
+    private var databasePath: DatabaseReference? = {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return nil
+        }
+        let ref = Database.database().reference().child("users/\(uid)")
+        return ref
+    }()
+    
     public var delegate: LoginViewControllerDelegate?
     
     private let logInButtom = CommonViews.createColorButtonView(title: "log in")
@@ -41,7 +42,7 @@ public class LoginViewController: UIViewController {
     private let passView = CommonViews.createTextFieldView(placeholder: "password", isSecure: true)
     
     private let createAccountButtom = CommonViews.createWhiteButton(title: "create account")
-
+    
     private let resetPassButtom = CommonViews.createWhiteButton(title: "reset password")
     
     private lazy var scrollView: UIScrollView = {
@@ -49,7 +50,7 @@ public class LoginViewController: UIViewController {
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
-
+    
     private lazy var contentView: UIView = {
         let content = UIView()
         content.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +66,7 @@ public class LoginViewController: UIViewController {
     }()
     
     private let appNameLabel = CommonViews.CreateLargeTitleLabelView(title: "Corgi club")
-       
+    
     private lazy var logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "logo", in: LoginUIResources.bundle, compatibleWith: nil)
@@ -74,8 +75,8 @@ public class LoginViewController: UIViewController {
         image.clipsToBounds = true
         return image
     }()
-   
-
+    
+    
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .default , handler: nil))
@@ -113,7 +114,7 @@ public class LoginViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -175,12 +176,12 @@ public class LoginViewController: UIViewController {
             createAccountButtom.heightAnchor.constraint(equalToConstant: 25),
             createAccountButtom.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
- 
+        
         logoImage.layer.cornerRadius = self.view.layer.bounds.width/6
         cicleView.layer.cornerRadius = self.view.layer.bounds.width
         
     }
-        
+    
     //MARK: dismissKeyboardTap
     
     private lazy var tap: UITapGestureRecognizer = {
@@ -191,52 +192,59 @@ public class LoginViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     //MARK: - objc buttons funcs
     
     @objc private func didTapLoginButton() {
-
-//        Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] result, error in
-//
-//            if result != nil && error == nil {
-//                
-//                delegate?.doLogin(vc: self)
-//                
-//                guard let databasePath = databasePath else {
-//                    return
-//                }
-//
-//                databasePath.getData { error, snapshot in
-//                    guard error == nil else {
-//                        print(error!.localizedDescription)
-//                        return;
-//                    }
-//
-//                    var json = snapshot?.value as? [String: Any]
-//                    json?["id"] = snapshot!.key
-//
-//                    
-////                    do {
-////                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
-////                        let user = try self.decoder.decode(User.self, from: userData)
-////                        let vc = ProfileViewController()
-////                        vc.nameView.text = user.name + " " + (user.id ?? "____")
-////                        vc.cityView.text = user.city
-////                        self.navigationController?.pushViewController(vc, animated: true)
-////
-////                    } catch {
-////                        print("an error occurred", error)
-////                    }
-//                }
-//            } else if error != nil {
-//                print(error!.localizedDescription)
-//                alert.title = error?.localizedDescription
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//        }
-
+        
+        Auth.auth().signIn(withEmail: loginView.text!, password: passView.text!) { [self] authResult, error in
+            
+            if authResult != nil && error == nil {
+                
+                delegate?.doLogin(vc: self)
+                
+                let uid = authResult?.user.uid
+                
+                let databasePath = Database.database().reference().child("users/\(uid)")
+                
+                Auth.auth().addStateDidChangeListener { _, user in
+                    print(user?.uid)
+                }
+                
+                databasePath.getData { error, snapshot in
+                    guard error == nil else {
+                        print(error!.localizedDescription)
+                        return;
+                    }
+                    
+                    var json = snapshot?.value as? [String: Any]
+                    json?["id"] = snapshot!.key
+                    
+                    //                    alert.title = authResult?.description
+                    //                    self.present(alert, animated: true, completion: nil)
+                    
+                    
+                    do {
+                        let userData = try JSONSerialization.data(withJSONObject: json as Any)
+                        
+                        let user = try self.decoder.decode(UserCorgi.self, from: userData)
+                        
+                        alert.title = "Login " + user.secondName + " " + user.name
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    } catch {
+                        print("an error occurred", error)
+                    }
+                }
+            } else if error != nil {
+                print(error!.localizedDescription)
+                alert.title = error?.localizedDescription
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        
     }
-
+    
     @objc private func didTapCreateAccountButtom() {
         print("didTapCreateAccountButtom")
         let createAccountVC = CreateUserViewController()
@@ -251,7 +259,7 @@ public class LoginViewController: UIViewController {
 // MARK: - Keyboard
 // сдвигает вью вверх если клавиатура перекрывает выделенное поле ввода
 extension LoginViewController {
-  
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         notificationCentre.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
