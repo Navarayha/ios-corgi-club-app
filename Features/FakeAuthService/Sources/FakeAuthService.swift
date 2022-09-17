@@ -11,7 +11,6 @@ import Common
 
 public class FakeAuthService: AuthService {
 
-    
     public func login(login: String, password: String) -> Bool {
         print("you are loggedin")
         return true
@@ -22,7 +21,6 @@ public class FakeAuthService: AuthService {
         return true
     }
     
-    private init() { }
-    
+    public init() {}
     
 }

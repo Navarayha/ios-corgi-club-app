@@ -179,26 +179,7 @@ public class LoginViewController: UIViewController {
     //MARK: - objc buttons funcs
     
     @objc private func didTapLoginButton() {
-        
         delegate?.doLogin(mail: loginView.text!, password: passView.text!)
-        
-        /* необходимо перенести в HomeCoordinator
-        
-        Auth.auth().signIn(withEmail: loginView.text ?? "", password: passView.text ?? "") { [self] authResult, error in
-  
-            if authResult != nil && error == nil {
-                alert.title = authResult!.user.uid
-                self.present(alert, animated: true, completion: nil)
-                
-                
-            } else if error != nil {
-                print(error!.localizedDescription)
-                alert.title = error?.localizedDescription
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-         
-        */
     }
     
     @objc private func didTapCreateAccountButtom() {
