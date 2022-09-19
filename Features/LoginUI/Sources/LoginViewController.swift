@@ -14,9 +14,7 @@ import CreateUserUI
 public class LoginViewController: UIViewController {
     
     private let notificationCentre = NotificationCenter.default
-    
-//    private let decoder = JSONDecoder()
- 
+
     public var delegate: LoginViewControllerDelegate?
     
     private let logInButtom = CommonViews.createColorButtonView(title: "log in")

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct UserCorgi: Identifiable, Codable {
+public struct CCUser: Identifiable, Codable {
     public var id: String?
     var name: String
     var secondName: String
