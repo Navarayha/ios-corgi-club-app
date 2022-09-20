@@ -10,7 +10,6 @@ import UIKit
 import Common
 import LoginUI
 import FeedUI
-import AuthService
 
 public class HomeCoordinator: LoginViewControllerDelegate {
    

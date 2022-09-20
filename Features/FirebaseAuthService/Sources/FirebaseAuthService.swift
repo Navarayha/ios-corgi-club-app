@@ -8,7 +8,7 @@
 
 import Foundation
 import Common
-im
+
 
 public class FirebaseAuthService: AuthService {
 
@@ -25,7 +25,7 @@ public class FirebaseAuthService: AuthService {
     }
     
     private init() {
-        Firebse
+
     }
     
     
