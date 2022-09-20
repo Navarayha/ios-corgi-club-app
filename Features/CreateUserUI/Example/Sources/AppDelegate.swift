@@ -1,25 +1,25 @@
 import UIKit
-import HomeCoordinator
-import Common
-import FakeAuthService
+import CreateUserUI
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-  
-    let service = FakeAuthService()
-    
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         
-        let homeCoordinator = HomeCoordinator(authService: service)
+        FirebaseApp.configure()
+        
+        let vc = CreateUserViewController()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: homeCoordinator.configureLoginVC())
+        window?.rootViewController = vc
         window?.makeKeyAndVisible()
-
+        
         return true
     }
 

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>478422316647-6sgmprj5kb1p12lpbgcg1mjphfhs1ohc.apps.googleusercontent.com</string>
+	<string>478422316647-71c19f1a2d9ho7ohkrep9uuom79t9bcf.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.478422316647-6sgmprj5kb1p12lpbgcg1mjphfhs1ohc</string>
+	<string>com.googleusercontent.apps.478422316647-71c19f1a2d9ho7ohkrep9uuom79t9bcf</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD3CN99i4lqjXZQGzXKOw_9UM4XCp3mXsI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sonomos.LoginUIExampleApp</string>
+	<string>com.sonomos.HomeCoordinatorExampleApp</string>
 	<key>PROJECT_ID</key>
 	<string>corgi-club</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:478422316647:ios:899b2fff5d355ae35546c2</string>
+	<string>1:478422316647:ios:4039ac4e002d32a05546c2</string>
 	<key>DATABASE_URL</key>
 	<string>https://corgi-club-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>

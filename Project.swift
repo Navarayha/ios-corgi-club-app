@@ -4,10 +4,7 @@ import ProjectDescriptionHelpers
 // MARK: - Project
 let project = Project.app(name: "CorgiClubApp",
                           platform: .iOS,
-                          externalDependencies: [
-                            "FirebaseDatabase",
-                            "FirebaseAuth"
-                          ],
+                          externalDependencies: [],
                           targetDependancies: [],
                           moduleTargets: [
                             makeLoginUIModule(),
@@ -16,8 +13,10 @@ let project = Project.app(name: "CorgiClubApp",
                             makeProfileUIModule(),
                             makeMeetingsUIModule(),
                             makeHomeCoordinatorModule(),
-                            makeAuthServiceModule(),
-                            makeCommonUIModule()
+                            makeFakeServiceModule(),
+                              makeFirebaseServiceModule(),
+                            makeCommonUIModule(),
+                            makeCreateUserUIModule()
                           ])
 
 func makeHomeCoordinatorModule() -> Module {
@@ -27,28 +26,36 @@ func makeHomeCoordinatorModule() -> Module {
                     .target(name: "Common"),
                     .target(name: "LoginUI"),
                     .target(name: "FeedUI"),
-                    //                .target(name: "AuthService")
-                    .external(name: "FirebaseAuth")
                   ],
                   exampleDependencies: [
                     .target(name: "Common"),
                     .target(name: "LoginUI"),
                     .target(name: "FeedUI"),
-                    .target(name: "AuthService")
+                    .target(name: "FakeAuthService")
                   ],
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
 
-func makeAuthServiceModule() -> Module {
-    return Module(name: "AuthService",
-                  path: "AuthService",
+func makeFakeServiceModule() -> Module {
+    return Module(name: "FakeAuthService",
+                  path: "FakeAuthService",
                   frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [.target(name: "Common")],
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
+}
+
+func makeFirebaseServiceModule() -> Module {
+    return Module(name: "FirebaseAuthService",
+            path: "FirebaseAuthService",
+            frameworkDependancies: [.target(name: "Common")],
+            exampleDependencies: [.target(name: "Common")],
+            frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+            exampleResources: ["Resources/**"],
+            testResources: [])
 }
 
 func makeProfileUIModule() -> Module {
@@ -77,8 +84,20 @@ func makeLoginUIModule() -> Module {
                   frameworkDependancies: [
                     .target(name: "Common"),
                     .target(name: "CommonUI"),
-                    .external(name: "FirebaseDatabase"),
-                    .external(name: "FirebaseAuth")
+                    .target(name: "CreateUserUI"),
+                  ],
+                  exampleDependencies: [],
+                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  exampleResources: ["Resources/**"],
+                  testResources: [])
+}
+
+func makeCreateUserUIModule() -> Module {
+    return Module(name: "CreateUserUI",
+                  path: "CreateUserUI",
+                  frameworkDependancies: [
+                    .target(name: "Common"),
+                    .target(name: "CommonUI")
                   ],
                   exampleDependencies: [],
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
@@ -89,10 +108,7 @@ func makeLoginUIModule() -> Module {
 func makeFeedUIModule() -> Module {
     return Module(name: "FeedUI",
                   path: "FeedUI",
-                  frameworkDependancies: [
-                    .target(name: "Common"),
-                    .target(name: "CommonUI"),
-                  ],
+                  frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [],
                   frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
@@ -115,7 +131,7 @@ func makeCommonUIModule() -> Module {
                   path: "CommonUI",
                   frameworkDependancies: [],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Sources/**/*.swift", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [],
                   targets: [.framework])
