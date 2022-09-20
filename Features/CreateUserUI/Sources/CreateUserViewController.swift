@@ -129,7 +129,7 @@ public class CreateUserViewController: UIViewController {
                 }
 
                 // Создает объект Модели user из текста.
-                let user = UserCorgi(name: name, secondName: secondName, login: login)
+                let user = CCUser(name: name, secondName: secondName, login: login)
 
                 do {
                     // Кодирует модель user в данные JSON

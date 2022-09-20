@@ -1,15 +1,11 @@
 import UIKit
-import HomeCoordinator
+import CreateUserUI
 import FirebaseCore
-import Common
-import
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    
 
     func application(
         _ application: UIApplication,
@@ -17,11 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         
         FirebaseApp.configure()
-        var homeCoordinator = HomeCoordinator(authService: Fake)
+        
+        let vc = CreateUserViewController()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: homeCoordinator.configureLoginVC())
+        window?.rootViewController = vc
         window?.makeKeyAndVisible()
-
+        
         return true
     }
 
