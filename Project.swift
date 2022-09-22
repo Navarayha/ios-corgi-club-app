@@ -33,7 +33,7 @@ func makeHomeCoordinatorModule() -> Module {
                     .target(name: "FeedUI"),
                     .target(name: "FakeAuthService")
                   ],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -43,7 +43,7 @@ func makeFakeServiceModule() -> Module {
                   path: "FakeAuthService",
                   frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [.target(name: "Common")],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -53,7 +53,7 @@ func makeFirebaseServiceModule() -> Module {
             path: "FirebaseAuthService",
             frameworkDependancies: [.target(name: "Common")],
             exampleDependencies: [.target(name: "Common")],
-            frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+            frameworkResources: ["Resources/**"],
             exampleResources: ["Resources/**"],
             testResources: [])
 }
@@ -63,7 +63,7 @@ func makeProfileUIModule() -> Module {
                   path: "ProfileUI",
                   frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -87,7 +87,7 @@ func makeLoginUIModule() -> Module {
                     .target(name: "CreateUserUI"),
                   ],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -100,7 +100,7 @@ func makeCreateUserUIModule() -> Module {
                     .target(name: "CommonUI")
                   ],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -110,7 +110,7 @@ func makeFeedUIModule() -> Module {
                   path: "FeedUI",
                   frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -120,7 +120,7 @@ func makeCommonModule() -> Module {
                   path: "Common",
                   frameworkDependancies: [],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.xib"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [],
                   targets: [.framework])
@@ -131,7 +131,7 @@ func makeCommonUIModule() -> Module {
                   path: "CommonUI",
                   frameworkDependancies: [],
                   exampleDependencies: [],
-                  frameworkResources: ["Sources/**/*.swift", "Resources/**"],
+                  frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [],
                   targets: [.framework])

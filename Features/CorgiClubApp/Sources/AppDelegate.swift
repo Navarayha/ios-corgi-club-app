@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let navVC = UINavigationController(rootViewController: HomeCoordinator(authService: FirebaseAuthService()).configureLoginVC())
+    let navVC = UINavigationController(rootViewController: HomeCoordinator(authService: FirebaseAuthService.instance).configureLoginVC())
     
     func application(
             _ application: UIApplication,

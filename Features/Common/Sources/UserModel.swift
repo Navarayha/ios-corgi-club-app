@@ -12,4 +12,10 @@ public struct CCUser: Identifiable, Codable {
     var name: String
     var secondName: String
     var login: String
+    
+    public init(name: String, secondName: String, login: String) {
+        self.name = name
+        self.secondName = secondName
+        self.login = login
+    }
   }

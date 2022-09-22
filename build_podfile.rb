@@ -22,6 +22,7 @@ project.targets.each do |target|
   puts "Target #{target} ------------ "
   if pod_files.include? target.display_name
     out_file.puts "target '#{target.display_name}' do"
+    out_file.puts "  use_frameworks!"
     out_file.puts(pod_files.fetch(target.display_name))
     out_file.puts "end\n\n"
   end
