@@ -14,7 +14,7 @@ let project = Project.app(name: "CorgiClubApp",
                             makeMeetingsUIModule(),
                             makeHomeCoordinatorModule(),
                             makeFakeServiceModule(),
-                              makeFirebaseServiceModule(),
+                            makeFirebaseServiceModule(),
                             makeCommonUIModule(),
                             makeCreateUserUIModule()
                           ])
@@ -50,12 +50,12 @@ func makeFakeServiceModule() -> Module {
 
 func makeFirebaseServiceModule() -> Module {
     return Module(name: "FirebaseAuthService",
-            path: "FirebaseAuthService",
-            frameworkDependancies: [.target(name: "Common")],
-            exampleDependencies: [.target(name: "Common")],
-            frameworkResources: ["Resources/**"],
-            exampleResources: ["Resources/**"],
-            testResources: [])
+                  path: "FirebaseAuthService",
+                  frameworkDependancies: [.target(name: "Common")],
+                  exampleDependencies: [.target(name: "Common")],
+                  frameworkResources: ["Resources/**"],
+                  exampleResources: ["Resources/**"],
+                  testResources: [])
 }
 
 func makeProfileUIModule() -> Module {
