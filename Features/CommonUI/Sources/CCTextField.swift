@@ -14,9 +14,11 @@ class CCTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public init(placeholder: String) {
+    public init(placeholder: String, isSecure: Bool, keyboardType: UIKeyboardType) {
         super.init(frame: .zero)
         self.placeholder = placeholder
+        self.isSecureTextEntry = isSecure
+        self.keyboardType = keyboardType
         configure()
     }
     
@@ -26,15 +28,23 @@ class CCTextField: UITextField {
     }
     
     private func configure() {
+        self.backgroundColor = .systemGray6
+        self.placeholder = placeholder
+        self.font = UIFont.systemFont(ofSize: 16)
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 2))
         self.leftView = leftView
         self.leftViewMode = .always
         self.autocapitalizationType = .none
         self.tintColor = .black
         self.textColor = .black
-        self.adjustsFontForContentSizeCategory = true
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = 3
-        translatesAutoresizingMaskIntoConstraints = false
+        self.layer.borderWidth = 0.5
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.clearButtonMode = .whileEditing
+        self.clearButtonMode = .unlessEditing
+        self.clearButtonMode = .always
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 14
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 }
