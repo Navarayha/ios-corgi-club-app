@@ -14,17 +14,23 @@ import FirebaseDatabase
 
 public class CreateUserViewController: UIViewController {
     
-    let userNameTextField = CommonViews.createTextFieldView(placeholder: "Name", isSecure: false)
+//    let authService:AuthService!
+//    
+//    let userService:UserService!
     
-    let userSecondNameTextField = CommonViews.createTextFieldView(placeholder: "Second Name", isSecure: false)
+    // init(authService, userService)
     
-    let emailTextField = CommonViews.createTextFieldView(placeholder: "email", isSecure: false)
+    let userNameTextField = CCTextField(placeholder: "Name", isSecure: false, keyboardType: .default)
     
-    let passwordTextField = CommonViews.createTextFieldView(placeholder: "password", isSecure: true)
+    let userSecondNameTextField = CCTextField(placeholder: "Second Name", isSecure: false, keyboardType: .default)
     
-    let repeatPasswordTextField = CommonViews.createTextFieldView(placeholder: "repeat password", isSecure: true)
+    let emailTextField = CCTextField(placeholder: "email", isSecure: false, keyboardType: .emailAddress)
     
-    let createUserButton = CommonViews.createColorButtonView(title: "Sign in")
+    let passwordTextField = CCTextField(placeholder: "password", isSecure: true, keyboardType: .default)
+    
+    let repeatPasswordTextField = CCTextField(placeholder: "repeat password", isSecure: true, keyboardType: .default)
+    
+    let createUserButton = CCColorButton(title: "Sign in")
     
     private lazy var alert: UIAlertController = {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
@@ -120,9 +126,7 @@ public class CreateUserViewController: UIViewController {
         
         if let name = userNameTextField.text,let secondName = userSecondNameTextField.text, let login = emailTextField.text, let password = passwordTextField.text {
             Auth.auth().createUser(withEmail: login, password: password) { [self] authDataResult, error in
-                
-                
-//                print(error)
+
                 // Возвращает ранее определенный путь к базе данных.
                 guard let databasePath = databasePath else {
                     return

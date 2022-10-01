@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CCTextField: UITextField {
+public class CCTextField: UITextField {
    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CCColorButton: UIButton {
+public class CCColorButton: UIButton {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
