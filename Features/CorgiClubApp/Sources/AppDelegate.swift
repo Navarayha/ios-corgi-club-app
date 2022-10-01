@@ -1,6 +1,8 @@
 import UIKit
-import HomeCoordinator
 import FirebaseAuthService
+import HomeCoordinator
+import FirebaseCore
+import FirebaseFirestore
 
 
 @main
@@ -15,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         
+        FirebaseApp.configure()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navVC
