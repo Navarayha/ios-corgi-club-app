@@ -57,7 +57,7 @@ class MeetingsCollectionView: UICollectionView {
     }
     
     private func setupAddButtonCell(cell: AddButtonCollectionViewCell, indexPath: IndexPath) {
-        cell.plusButton.addTarget(self, action: #selector(addButtonTapped  ), for: .touchUpInside)
+        cell.plusButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
     }
     
     @objc func addButtonTapped() {

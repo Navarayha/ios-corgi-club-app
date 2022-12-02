@@ -11,18 +11,11 @@ import Common
 
 #warning("Переиспользовать")
 
-//protocol AddButtonProtocol {
-//    func addButtonTapped(sender: UIButton)
-//}
-
 class PetsCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-//    var addButtonDelegate: AddButtonProtocol?
-    
-    let test = UserProfileViewController()
-//    let delegateTest: UserProfileUIViewController?
+    lazy var userProfileController = UserProfileViewController()
     
     // MARK: - Override functions
     
@@ -67,10 +60,8 @@ class PetsCollectionView: UICollectionView {
     }
     
     @objc func addButtonTapped() {
-//        test.addButtonTapped()
-        test.navigationController?.pushViewController(PetProfileViewController(), animated: true)
-//        guard let delegateOne = delegateTest else {return}
-//        delegateOne.addButtonTapped()
+        userProfileController.navigationController?.pushViewController(PetProfileViewController(), animated: true)
+        
         print("ADD")
     }
 }
@@ -84,7 +75,7 @@ extension PetsCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cellID = indexPath.row < petsData.count ? PetsCollectionViewCell.reuseID : AddButtonCollectionViewCell.reuseID //"PetsCollectionViewCell" : "AddButtonCollectionViewCell"
+        let cellID = indexPath.row < petsData.count ? PetsCollectionViewCell.reuseID : AddButtonCollectionViewCell.reuseID
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
 
@@ -109,7 +100,3 @@ extension PetsCollectionView: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
 }
-
-//extension UserPetsCollectionView: AddButtonProtocol {
-//
-//}

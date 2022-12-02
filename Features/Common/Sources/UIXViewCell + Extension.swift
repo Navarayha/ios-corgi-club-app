@@ -21,10 +21,6 @@ extension Reusable where Self: UIView {
 }
 
 public extension UICollectionViewCell {
-//    public func reuseID<Cell: UICollectionViewCell>(_ cell: Cell.Type) -> String {
-//        return String(describing: cell.reuseID)
-//    }
-    
     static var reuseID: String {
         return String(describing: self)
     }

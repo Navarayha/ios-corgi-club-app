@@ -9,19 +9,16 @@
 import UIKit
 import Common
 
-protocol AddButtonProtocol: AnyObject {
-    func addButtonTapped()
-}
-
 public class UserProfileViewController: UIViewController {
 
     // MARK: - Constants
     
     private enum Constants {
-        static let backgroundColor: UIColor = .init(red: 1, green: 0.983, blue: 0.96, alpha: 1)
+        static let backgroundColor: UIColor = UIColor(red: 1, green: 0.983, blue: 0.96, alpha: 1)
+        static let cornerRadius: Double = 32.0
         static let numberOfSections: Int = 2
         
-        enum NumberOfRowInSection {
+        enum NumberOfRowsInSection {
             static let one: Int = 1
             static let two: Int = 3
         }
@@ -29,11 +26,15 @@ public class UserProfileViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    lazy private var tableView: UITableView = {
+        let tableView = UITableView(frame: view.bounds, style: .plain)
         
         tableView.backgroundColor = Constants.backgroundColor
-        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsets.zero
+        tableView.separatorStyle = .none //.singleLine
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         
         tableView.registerCell(DescriptionCell.self)
         tableView.registerCell(InfoCell.self)
@@ -43,30 +44,12 @@ public class UserProfileViewController: UIViewController {
         return tableView
     }()
     
-//    var addButtonDelegate: AddButtonProtocol?
-    
     // MARK: - Override functions
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         view.addSubview(tableView)
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-//        for family in UIFont.familyNames.sorted() {
-//            let name = UIFont.fontNames(forFamilyName: family)
-//            print("Family: \(family), Name: \(name)")
-//
-//        }
-//        print(UIFont.familyNames.count)
-        
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(pushVC))
-    }
-    
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
     }
     
     // MARK: - Functions
@@ -74,13 +57,6 @@ public class UserProfileViewController: UIViewController {
     @objc func pushVC() {
         navigationController?.pushViewController(PetProfileViewController(), animated: true)
     }
-
-    
-//    func addButtonTapped() {
-//        let vc = PetProfileUIViewController()
-//        navigationController?.pushViewController(vc, animated: true)
-////        present(vc, animated: true)
-//    }
 }
 
     // MARK: - UITableViewDataSource
@@ -95,11 +71,11 @@ extension UserProfileViewController: UITableViewDataSource {
         
         switch section {
         case .info:
-            return Constants.NumberOfRowInSection.one
+            return Constants.NumberOfRowsInSection.one
         case .detail:
-            return Constants.NumberOfRowInSection.two
+            return Constants.NumberOfRowsInSection.two
         default:
-            return Constants.NumberOfRowInSection.one
+            return Constants.NumberOfRowsInSection.one
         }
     }
     
@@ -114,9 +90,9 @@ extension UserProfileViewController: UITableViewDataSource {
             if indexPath.row == 0 {
                 return configureDescriptionCell(indexPath: indexPath)
             } else if indexPath.row == 1 {
-                return configureMyPetsCell(indexPath: indexPath)
+                return configurePetsTableViewCell(indexPath: indexPath)
             } else if indexPath.row == 2 {
-                return configureMyMeetsCell(indexPath: indexPath)
+                return configureMeetingsTableViewCell(indexPath: indexPath)
             } else {
                 return UITableViewCell()
             }
@@ -132,6 +108,22 @@ extension UserProfileViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+//        let sectionIndexPath = indexPath.section
+//        let section = UserProfileSectionsEnum(rawValue: sectionIndexPath)
+//
+//        if section == .info {
+////            cell.layer.mask = makeMaskLayer(cell: cell, byRoundingCorners: .allCorners)
+//        } else if section == .detail {
+//            if indexPath.row == 0 {
+//                cell.layer.mask = makeMaskLayer(cell: cell, byRoundingCorners: [.topLeft, .topRight])
+//            } else if indexPath.row == Constants.NumberOfRowsInSection.two - 1 {
+//                cell.layer.mask = makeMaskLayer(cell: cell, byRoundingCorners: [.bottomLeft, .bottomRight])
+//            }
+//        }
+    }
 }
 
     // MARK: - Extension
@@ -142,30 +134,31 @@ extension UserProfileViewController {
         cell.avatarImageView.image = UserProfileUIAsset.daenerys.image
         cell.nameLabel.text = "Дейнерис Бурерожденная Таргариен"
         cell.locationLabel.text = "Королевская гавань, Вестерос"
+        
         return cell
     }
     
     private func configureDescriptionCell(indexPath: IndexPath) -> DescriptionCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as DescriptionCell
-        cell.aboutLabel.text = "Дейенерис из дома Таргариенов, именуемая первой, Неопалимая, Королева Миэрина, Королева Андалов, Ройнаров и Первых Людей, Кхалиси Дотракийского Моря, Разбивающая Оковы и Матерь Драконов"
+        cell.aboutLabel.text = "Дейнерис из дома Таргариенов, именуемая первой, Неопалимая, Королева Миэрина, Королева Андалов, Ройнаров и Первых Людей, Кхалиси Дотракийского Моря, Разбивающая Оковы и Матерь Драконов"
         return cell
     }
     
-    private func configureMyPetsCell(indexPath: IndexPath) -> PetsTableViewCell {
+    private func configurePetsTableViewCell(indexPath: IndexPath) -> PetsTableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as PetsTableViewCell
         return cell
     }
     
-    private func configureMyMeetsCell(indexPath: IndexPath) -> MeetingsTableViewCell {
+    private func configureMeetingsTableViewCell(indexPath: IndexPath) -> MeetingsTableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as MeetingsTableViewCell
-        
         return cell
     }
-}
-
-extension UserProfileViewController: AddButtonProtocol {
-    func addButtonTapped() {
-        let vc = PetProfileViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
+    
+//    private func makeMaskLayer(cell: UITableViewCell, byRoundingCorners corners: UIRectCorner) -> CAShapeLayer {
+//        let maskPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
+//        let maskLayer = CAShapeLayer()
+//        maskLayer.frame = cell.bounds
+//        maskLayer.path = maskPath.cgPath
+//        return maskLayer
+//    }
 }

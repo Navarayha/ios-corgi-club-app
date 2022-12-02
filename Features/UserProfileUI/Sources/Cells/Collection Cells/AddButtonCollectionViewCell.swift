@@ -15,8 +15,6 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     
     private enum Constants {
         enum PlusButton {
-            static let name = "add"
-            
             static let heightAnchorConstant: CGFloat = 60.0
             static let widthAnchorConstant: CGFloat = 60.0
         }
@@ -24,7 +22,7 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var plusButton: UIButton = {
+    let plusButton: UIButton = {
         let button = UIButton()
         button.setImage(CommonUIAsset.add.image, for: .normal)
         return button
@@ -35,7 +33,7 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        plusButtonConstraint()
+        plusButtonConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -44,7 +42,7 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Functions
     
-    private func plusButtonConstraint() {
+    private func plusButtonConstraints() {
         contentView.addSubview(plusButton)
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
