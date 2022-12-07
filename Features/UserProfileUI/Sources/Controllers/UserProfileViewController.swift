@@ -2,163 +2,168 @@
 //  UserProfileViewController.swift
 //  UserProfileUI
 //
-//  Created by Afir Thes on 02.09.2022.
-//  Copyright © 2022 tuist.io. All rights reserved.
+//  Created by Микаэл Мартиросян on 06.12.2022.
+//  Copyright © 2022 Sonomos.com. All rights reserved.
 //
 
 import UIKit
 import Common
 
 public class UserProfileViewController: UIViewController {
-
+    
     // MARK: - Constants
     
     private enum Constants {
-        static let backgroundColor: UIColor = UIColor(red: 1, green: 0.983, blue: 0.96, alpha: 1)
-        static let cornerRadius: Double = 32.0
-        static let numberOfSections: Int = 2
         
-        enum NumberOfRowsInSection {
-            static let one: Int = 1
-            static let two: Int = 3
+        enum InfoView {
+            static let topAnchor: CGFloat = 60.0
+            static let leadingAnchor: CGFloat = 16.0
+            static let trailingAnchor: CGFloat = -16.0
+        }
+        
+        enum DetailView {
+            static let topAnchor: CGFloat = 24.0
+            static let bottomAnchor: CGFloat = 24.0
+            static let leadingAnchor: CGFloat = 16.0
+            static let trailingAnchor: CGFloat = -16.0
         }
     }
     
     // MARK: - Properties
     
-    lazy private var tableView: UITableView = {
-        let tableView = UITableView(frame: view.bounds, style: .plain)
-        
-        tableView.backgroundColor = Constants.backgroundColor
-        tableView.separatorInset = UIEdgeInsets.zero
-        tableView.separatorStyle = .none //.singleLine
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        tableView.registerCell(DescriptionCell.self)
-        tableView.registerCell(InfoCell.self)
-        tableView.registerCell(MeetingsTableViewCell.self)
-        tableView.registerCell(PetsTableViewCell.self)
-        
-        return tableView
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.frame.size = contentSize
+        return view
     }()
+
+    private var contentSize: CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height + Constants.DetailView.bottomAnchor)
+    }
+    
+    private lazy var detailView = DetailView()
+    
+    private lazy var infoView = InfoView()
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.frame = view.bounds
+        scrollView.contentSize = contentSize
+        return scrollView
+    }()
+    
+//    let customButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Segue", for: .normal)
+//        button.setTitleColor(.red, for: .normal)
+//        button.backgroundColor = .blue
+//        return button
+//    }()
     
     // MARK: - Override functions
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(tableView)
+        view.backgroundColor = CommonConstants.View.backgroundColor
+        
+        setupConfigs()
+        setupConstraints()
+        
+//        setupButton()
+//        customButton.addTarget(self, action: #selector(openNextContr), for: .touchUpInside)
+        
+//        let petsDelegate = PetsCollectionView()
+//        petsDelegate.addNewPetDelegate = self
+        
+        
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        detailView.layer.shadowPath = UIBezierPath(roundedRect: detailView.bounds, cornerRadius: CommonConstants.View.cornerRadius).cgPath
     }
     
     // MARK: - Functions
     
-    @objc func pushVC() {
-        navigationController?.pushViewController(PetProfileViewController(), animated: true)
-    }
-}
-
-    // MARK: - UITableViewDataSource
-
-extension UserProfileViewController: UITableViewDataSource {
-    public func numberOfSections(in tableView: UITableView) -> Int {
-        return Constants.numberOfSections
+    // MARK: Configs
+    private func setupConfigs() {
+        setupInfoViewConfig()
+        setupDetailViewConfig()
     }
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = UserProfileSectionsEnum(rawValue: section)
+    private func setupInfoViewConfig() {
+        infoView.avatarImageView.image = userData.avatar
+        infoView.nameLabel.text = userData.name
+        infoView.locationLabel.text = userData.location
+    }
+    
+    private func setupDetailViewConfig() {
+        detailView.descriptionView.aboutLabel.text = userData.about
+    }
+    
+    // MARK: Constraints
+    private func setupConstraints() {
+        setupScrollViewConstraints()
+        setupContentViewConstraints()
+        setupInfoViewConstraints()
+        setupDetailViewConstraints()
+    }
+    
+    private func setupScrollViewConstraints() {
+        view.addSubview(scrollView)
+    }
+    
+    private func setupContentViewConstraints() {
+        scrollView.addSubview(contentView)
+    }
         
-        switch section {
-        case .info:
-            return Constants.NumberOfRowsInSection.one
-        case .detail:
-            return Constants.NumberOfRowsInSection.two
-        default:
-            return Constants.NumberOfRowsInSection.one
-        }
+    private func setupInfoViewConstraints() {
+        contentView.addSubview(infoView)
+        infoView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            infoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.InfoView.topAnchor),
+            infoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.InfoView.leadingAnchor),
+            infoView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.InfoView.trailingAnchor)
+        ])
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionIndexPath = indexPath.section
-        let section = UserProfileSectionsEnum(rawValue: sectionIndexPath)
-
-        switch section {
-        case .info:
-            return configureInfoCell(indexPath: indexPath)
-        case .detail:
-            if indexPath.row == 0 {
-                return configureDescriptionCell(indexPath: indexPath)
-            } else if indexPath.row == 1 {
-                return configurePetsTableViewCell(indexPath: indexPath)
-            } else if indexPath.row == 2 {
-                return configureMeetingsTableViewCell(indexPath: indexPath)
-            } else {
-                return UITableViewCell()
-            }
-        default:
-            return UITableViewCell()
-        }
-    }
-}
-
-    // MARK: - UITableViewDelegate
-
-extension UserProfileViewController: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    private func setupDetailViewConstraints() {
+        contentView.addSubview(detailView)
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            detailView.topAnchor.constraint(equalTo: infoView.bottomAnchor, constant: Constants.DetailView.topAnchor),
+            detailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.DetailView.leadingAnchor),
+            detailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.DetailView.trailingAnchor)
+        ])
     }
     
-    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-//        let sectionIndexPath = indexPath.section
-//        let section = UserProfileSectionsEnum(rawValue: sectionIndexPath)
-//
-//        if section == .info {
-////            cell.layer.mask = makeMaskLayer(cell: cell, byRoundingCorners: .allCorners)
-//        } else if section == .detail {
-//            if indexPath.row == 0 {
-//                cell.layer.mask = makeMaskLayer(cell: cell, byRoundingCorners: [.topLeft, .topRight])
-//            } else if indexPath.row == Constants.NumberOfRowsInSection.two - 1 {
-//                cell.layer.mask = makeMaskLayer(cell: cell, byRoundingCorners: [.bottomLeft, .bottomRight])
-//            }
-//        }
-    }
-}
-
-    // MARK: - Extension
-
-extension UserProfileViewController {
-    private func configureInfoCell(indexPath: IndexPath) -> InfoCell {
-        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as InfoCell
-        cell.avatarImageView.image = UserProfileUIAsset.daenerys.image
-        cell.nameLabel.text = "Дейнерис Бурерожденная Таргариен"
-        cell.locationLabel.text = "Королевская гавань, Вестерос"
-        
-        return cell
-    }
-    
-    private func configureDescriptionCell(indexPath: IndexPath) -> DescriptionCell {
-        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as DescriptionCell
-        cell.aboutLabel.text = "Дейнерис из дома Таргариенов, именуемая первой, Неопалимая, Королева Миэрина, Королева Андалов, Ройнаров и Первых Людей, Кхалиси Дотракийского Моря, Разбивающая Оковы и Матерь Драконов"
-        return cell
-    }
-    
-    private func configurePetsTableViewCell(indexPath: IndexPath) -> PetsTableViewCell {
-        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as PetsTableViewCell
-        return cell
-    }
-    
-    private func configureMeetingsTableViewCell(indexPath: IndexPath) -> MeetingsTableViewCell {
-        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as MeetingsTableViewCell
-        return cell
-    }
-    
-//    private func makeMaskLayer(cell: UITableViewCell, byRoundingCorners corners: UIRectCorner) -> CAShapeLayer {
-//        let maskPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
-//        let maskLayer = CAShapeLayer()
-//        maskLayer.frame = cell.bounds
-//        maskLayer.path = maskPath.cgPath
-//        return maskLayer
+//    func setupButton() {
+//        contentView.addSubview(customButton)
+//        customButton.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            customButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            customButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            customButton.heightAnchor.constraint(equalToConstant: 50),
+//            customButton.widthAnchor.constraint(equalToConstant: 50)
+//        ])
 //    }
+    
+    func openNextContr() {
+        let vc = PetProfileViewController()
+//        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+        print("openNextContr")
+        dismiss(animated: true)
+    }
 }
+
+//extension UserProfileViewController: AddNewPetProtocol {
+//    func addNewPet() {
+//        #warning("delegate")
+//        let vc = PetProfileViewController()
+//        navigationController?.pushViewController(vc, animated: true)
+//
+//    }
+//}

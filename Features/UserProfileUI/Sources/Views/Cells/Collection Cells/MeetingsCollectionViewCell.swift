@@ -18,6 +18,8 @@ class MeetingsCollectionViewCell: UICollectionViewCell {
         enum DateImageView {
             static let backgroundColor: UIColor = .init(red: 0.971, green: 1, blue: 0.961, alpha: 1)
             static let borderColor: CGColor = .init(red: 1, green: 0.871, blue: 0.678, alpha: 1)
+            static let borderWidth: CGFloat = 1.0
+            static let cornerRadius: CGFloat = Constants.DateImageView.heightAnchorConstant / 2.0
             
             static let heightAnchorConstant: CGFloat = 60.0
             static let widthAnchorConstant: CGFloat = 60.0
@@ -41,11 +43,11 @@ class MeetingsCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
         
-    let dateImageView: UIImageView = {
+    private let dateImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = Constants.DateImageView.backgroundColor
         imageView.layer.borderColor = Constants.DateImageView.borderColor
-        imageView.layer.borderWidth = 1.0
+        imageView.layer.borderWidth = Constants.DateImageView.borderWidth
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -53,7 +55,7 @@ class MeetingsCollectionViewCell: UICollectionViewCell {
     
     let monthLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: CustomFontName.regular, size: Constants.MonthLabel.fontSize)
+        label.font = CommonUIFontFamily.Inter.regular.font(size: Constants.MonthLabel.fontSize)
         label.textAlignment = .center
         label.textColor = Constants.MonthLabel.textColor
         return label
@@ -61,7 +63,7 @@ class MeetingsCollectionViewCell: UICollectionViewCell {
     
     let numberLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: CustomFontName.medium, size: Constants.NumberLabel.fontSize)
+        label.font = CommonUIFontFamily.Inter.medium.font(size: Constants.NumberLabel.fontSize)
         label.textAlignment = .center
         label.textColor = Constants.NumberLabel.textColor
         return label
@@ -74,7 +76,7 @@ class MeetingsCollectionViewCell: UICollectionViewCell {
         
         setupConstraints()
         
-        dateImageView.layer.cornerRadius =  Constants.DateImageView.heightAnchorConstant / 2.0
+        dateImageView.layer.cornerRadius = Constants.DateImageView.cornerRadius
     }
     
     required init?(coder: NSCoder) {

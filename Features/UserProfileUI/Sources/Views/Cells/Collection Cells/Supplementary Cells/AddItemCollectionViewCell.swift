@@ -9,12 +9,12 @@
 import UIKit
 import CommonUI
 
-class AddButtonCollectionViewCell: UICollectionViewCell {
+class AddItemCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Constants
     
     private enum Constants {
-        enum PlusButton {
+        enum AddImageView {
             static let heightAnchorConstant: CGFloat = 60.0
             static let widthAnchorConstant: CGFloat = 60.0
         }
@@ -22,10 +22,10 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    let plusButton: UIButton = {
-        let button = UIButton()
-        button.setImage(CommonUIAsset.add.image, for: .normal)
-        return button
+    private let addImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = CommonUIAsset.add.image
+        return imageView
     }()
     
     // MARK: - Override functions
@@ -33,7 +33,7 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        plusButtonConstraints()
+        addImageViewConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -42,13 +42,13 @@ class AddButtonCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Functions
     
-    private func plusButtonConstraints() {
-        contentView.addSubview(plusButton)
-        plusButton.translatesAutoresizingMaskIntoConstraints = false
+    private func addImageViewConstraints() {
+        contentView.addSubview(addImageView)
+        addImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            plusButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            plusButton.heightAnchor.constraint(equalToConstant: Constants.PlusButton.heightAnchorConstant),
-            plusButton.widthAnchor.constraint(equalToConstant: Constants.PlusButton.widthAnchorConstant)
+            addImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            addImageView.heightAnchor.constraint(equalToConstant: Constants.AddImageView.heightAnchorConstant),
+            addImageView.widthAnchor.constraint(equalToConstant: Constants.AddImageView.widthAnchorConstant)
         ])
     }
 }
