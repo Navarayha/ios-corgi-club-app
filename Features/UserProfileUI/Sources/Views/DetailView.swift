@@ -14,7 +14,7 @@ class DetailView: UIView {
     // MARK: - Properties
     
     let descriptionView = DescriptionView()
-    let petsView = PetsView()
+    var petsView: PetsView
     let meetingsView = MeetingsView()
     
     private let firstSeparator = SeparatorView()
@@ -22,7 +22,10 @@ class DetailView: UIView {
     
     // MARK: - Override functions
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, petDelegate: PetControllerDelegate) {
+        
+        petsView = PetsView(frame: frame, petDelegate: petDelegate)
+
         super.init(frame: frame)
         
         backgroundColor = .clear

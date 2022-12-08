@@ -35,7 +35,7 @@ class PetsView: UIView {
     
     // MARK: - Proporties
     
-    private let collectionView = PetsCollectionView()
+    private let collectionView: PetsCollectionView
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +47,10 @@ class PetsView: UIView {
         
     // MARK: - Override functions
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, petDelegate: PetControllerDelegate) {
+        
+        collectionView = PetsCollectionView(frame: frame, petDelegate: petDelegate)
+        
         super.init(frame: frame)
         
         backgroundColor = .white

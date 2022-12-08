@@ -14,7 +14,6 @@ public class UserProfileViewController: UIViewController {
     // MARK: - Constants
     
     private enum Constants {
-        
         enum InfoView {
             static let topAnchor: CGFloat = 60.0
             static let leadingAnchor: CGFloat = 16.0
@@ -41,7 +40,7 @@ public class UserProfileViewController: UIViewController {
         CGSize(width: view.frame.width, height: view.frame.height + Constants.DetailView.bottomAnchor)
     }
     
-    private lazy var detailView = DetailView()
+    private var detailView: DetailView?
     
     private lazy var infoView = InfoView()
     
@@ -49,43 +48,36 @@ public class UserProfileViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.frame = view.bounds
         scrollView.contentSize = contentSize
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
-    
-//    let customButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Segue", for: .normal)
-//        button.setTitleColor(.red, for: .normal)
-//        button.backgroundColor = .blue
-//        return button
-//    }()
     
     // MARK: - Override functions
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        detailView = DetailView(frame: .zero, petDelegate: self)
+        
         view.backgroundColor = CommonConstants.View.backgroundColor
         
         setupConfigs()
         setupConstraints()
-        
-//        setupButton()
-//        customButton.addTarget(self, action: #selector(openNextContr), for: .touchUpInside)
-        
-//        let petsDelegate = PetsCollectionView()
-//        petsDelegate.addNewPetDelegate = self
-        
-        
     }
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        guard let detailView  = detailView else { return }
+        
         detailView.layer.shadowPath = UIBezierPath(roundedRect: detailView.bounds, cornerRadius: CommonConstants.View.cornerRadius).cgPath
     }
     
     // MARK: - Functions
+    
+    @objc func editButtonSelected() {
+        // open Profile Edit Controller
+    }
     
     // MARK: Configs
     private func setupConfigs() {
@@ -97,9 +89,11 @@ public class UserProfileViewController: UIViewController {
         infoView.avatarImageView.image = userData.avatar
         infoView.nameLabel.text = userData.name
         infoView.locationLabel.text = userData.location
+        infoView.editButton.addTarget(self, action: #selector(editButtonSelected), for: .touchUpInside)
     }
     
     private func setupDetailViewConfig() {
+        guard let detailView  = detailView else { return }
         detailView.descriptionView.aboutLabel.text = userData.about
     }
     
@@ -130,6 +124,7 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func setupDetailViewConstraints() {
+        guard let detailView  = detailView else { return }
         contentView.addSubview(detailView)
         detailView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -138,32 +133,30 @@ public class UserProfileViewController: UIViewController {
             detailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.DetailView.trailingAnchor)
         ])
     }
+}
+
+    // MARK: - MeetingControllerDelegate
+
+extension UserProfileViewController: MeetingControllerDelegate {
     
-//    func setupButton() {
-//        contentView.addSubview(customButton)
-//        customButton.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            customButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            customButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            customButton.heightAnchor.constraint(equalToConstant: 50),
-//            customButton.widthAnchor.constraint(equalToConstant: 50)
-//        ])
-//    }
+    public func meetingSelected() {
+        // open Meeting Controller
+    }
     
-    func openNextContr() {
-        let vc = PetProfileViewController()
-//        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
-        print("openNextContr")
-        dismiss(animated: true)
+    public func addMeeting() {
+        // open Add Meeting Controller
     }
 }
 
-//extension UserProfileViewController: AddNewPetProtocol {
-//    func addNewPet() {
-//        #warning("delegate")
-//        let vc = PetProfileViewController()
-//        navigationController?.pushViewController(vc, animated: true)
-//
-//    }
-//}
+    // MARK: - - PetControllerDelegate
+
+extension UserProfileViewController: PetControllerDelegate {
+    
+    public func petSelected() {
+        // open Pet Profile Controller
+    }
+    
+    public func addPet() {
+        // open Add Pet Controller
+    }
+}

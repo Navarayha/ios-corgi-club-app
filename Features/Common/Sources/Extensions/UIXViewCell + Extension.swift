@@ -8,18 +8,6 @@
 
 import UIKit
 
-public protocol Reusable {}
-
-extension UITableViewCell: Reusable {}
-
-extension UICollectionViewCell: Reusable {}
-
-extension Reusable where Self: UIView {
-    static var reuseID: String {
-        return String(describing: self)
-    }
-}
-
 public extension UICollectionViewCell {
     static var reuseID: String {
         return String(describing: self)
@@ -32,3 +20,6 @@ public extension UITableViewCell {
     }
 }
 
+extension UITableViewCell: Reusable {}
+
+extension UICollectionViewCell: Reusable {}

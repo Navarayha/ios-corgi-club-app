@@ -82,17 +82,17 @@ extension MeetingsCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let vc = UIApplication.getTopMostViewController()
-
-        if indexPath.item == datesData.count {
-            let destinationVC = AddMeetingViewController()
-            destinationVC.modalPresentationStyle = .automatic
-            vc?.present(destinationVC, animated: true)
-        } else {
-            let destinationVC = MeetingViewController()
-            destinationVC.modalPresentationStyle = .automatic
-            vc?.present(destinationVC, animated: true)
-        }
+//        let vc = UIApplication.getTopMostViewController()
+//
+//        if indexPath.item == datesData.count {
+//            let destinationVC = AddMeetingViewController()
+//            destinationVC.modalPresentationStyle = .automatic
+//            vc?.present(destinationVC, animated: true)
+//        } else {
+//            let destinationVC = MeetingViewController()
+//            destinationVC.modalPresentationStyle = .automatic
+//            vc?.present(destinationVC, animated: true)
+//        }
     }
 }
 

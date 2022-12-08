@@ -93,7 +93,7 @@ class InfoView: UIView {
         return label
     }()
     
-    private let editButton: UIButton = {
+    let editButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Constants.EditButton.backgroundColor
         button.layer.cornerRadius = Constants.EditButton.cornerRadius

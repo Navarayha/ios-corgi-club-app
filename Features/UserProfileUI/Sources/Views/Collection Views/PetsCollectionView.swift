@@ -19,12 +19,16 @@ class PetsCollectionView: UICollectionView {
         static let sizeForItemAt: CGSize = CGSize(width: 60, height: 80)
     }
     
+    private var petDelegate: PetControllerDelegate
+    
     // MARK: - Override functions
     
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+    init(frame: CGRect, petDelegate: PetControllerDelegate) {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        
+        self.petDelegate = petDelegate
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
@@ -81,17 +85,11 @@ extension PetsCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let vc = UIApplication.getTopMostViewController()
 
         if indexPath.row == petsData.count {
-            let destinationVC = AddPetViewController()
-            destinationVC.modalPresentationStyle = .automatic
-            vc?.present(destinationVC, animated: true)
+            petDelegate.addPet()
         } else {
-            let destinationVC = PetProfileViewController()
-            destinationVC.modalPresentationStyle = .automatic
-            vc?.present(destinationVC, animated: true)            
+            petDelegate.petSelected()
         }
     }
 }
