@@ -1,2 +1,2 @@
-  pod 'Firebase/Auth', '~> 8.0.0'
-  pod 'Firebase/Database', '~> 8.0.0'
+pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
