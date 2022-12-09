@@ -1,5 +1,5 @@
 //
-//  MeetingsCollectionViewCell.swift
+//  MeetingCollectionViewCell.swift
 //  UserProfileUI
 //
 //  Created by Микаэл Мартиросян on 25.11.2022.
@@ -10,7 +10,7 @@ import UIKit
 import Common
 import CommonUI
 
-class MeetingsCollectionViewCell: UICollectionViewCell {
+class MeetingCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Constants
     

@@ -1,5 +1,5 @@
 //
-//  DatesDataStruct.swift
+//  MeetingDataStruct.swift
 //  UserProfileUI
 //
 //  Created by Микаэл Мартиросян on 27.11.2022.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct DatesDataStruct {
+public struct MeetingDataStruct {
     var month: String
     var number: Int
 }

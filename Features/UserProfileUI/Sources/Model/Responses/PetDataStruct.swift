@@ -1,5 +1,5 @@
 //
-//  PetsDataStruct.swift
+//  PetDataStruct.swift
 //  UserProfileUI
 //
 //  Created by Микаэл Мартиросян on 15.09.2022.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-public struct PetsDataStruct {
-    var avatar: UIImage
+public struct PetDataStruct {
+    var avatar: UIImage?
     var name: String
 }
 

@@ -45,7 +45,7 @@ class PetsView: UIView {
         return label
     }()
         
-    // MARK: - Override functions
+    // MARK: - Initializers
 
     init(frame: CGRect, petDelegate: PetControllerDelegate) {
         

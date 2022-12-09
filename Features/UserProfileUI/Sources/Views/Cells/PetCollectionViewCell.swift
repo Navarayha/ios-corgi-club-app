@@ -1,5 +1,5 @@
 //
-//  PetsCollectionViewCell.swift
+//  PetCollectionViewCell.swift
 //  UserProfileUI
 //
 //  Created by Микаэл Мартиросян on 15.09.2022.
@@ -9,7 +9,7 @@
 import UIKit
 import Common
 
-class PetsCollectionViewCell: UICollectionViewCell {
+class PetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Constants
     

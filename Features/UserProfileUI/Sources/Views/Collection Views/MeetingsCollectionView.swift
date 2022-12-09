@@ -19,22 +19,31 @@ class MeetingsCollectionView: UICollectionView {
         static let sizeForItemAt: CGSize = CGSize(width: 60, height: 80)
     }
     
+    // MARK: - Properties
+    
+    private var data: [MeetingDataStruct]? = nil
+    private var meetingDelegate: MeetingControllerDelegate
+    
     // MARK: - Override functions
     
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+    init(frame: CGRect, meetingDelegate: MeetingControllerDelegate) {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
+        self.meetingDelegate = meetingDelegate
+        
         super.init(frame: .zero, collectionViewLayout: layout)
         
-        registerCell(MeetingsCollectionViewCell.self)
+        registerCell(MeetingCollectionViewCell.self)
         registerCell(AddItemCollectionViewCell.self)
 
         dataSource = self
         delegate = self
                     
         showsHorizontalScrollIndicator = false
+        
+        fetchData()
     }
 
     required init?(coder: NSCoder) {
@@ -43,19 +52,22 @@ class MeetingsCollectionView: UICollectionView {
     
     // MARK: - Functions
     
-    private func configureMeetingsCollectionViewCell(indexPath: IndexPath) -> MeetingsCollectionViewCell {
-        let cell = self.dequeueReusableCell(forIndexPath: indexPath) as MeetingsCollectionViewCell
+    private func configureMeetingsCollectionViewCell(indexPath: IndexPath) -> MeetingCollectionViewCell {
+        let cell = self.dequeueReusableCell(forIndexPath: indexPath) as MeetingCollectionViewCell
         
-        cell.monthLabel.text = datesData[indexPath.item].month
-        cell.numberLabel.text = String(describing: datesData[indexPath.item].number)
+        cell.monthLabel.text = data?[indexPath.item].month
+        cell.numberLabel.text = String(describing: data?[indexPath.item].number)
         
         return cell
     }
     
     private func configureAddItemCollectionViewCell(indexPath: IndexPath) -> AddItemCollectionViewCell {
         let cell = self.dequeueReusableCell(forIndexPath: indexPath) as AddItemCollectionViewCell
-        
         return cell
+    }
+    
+    private func fetchData() {
+        // Получить данные и присвоить их переменной data
     }
 }
 
@@ -63,15 +75,15 @@ class MeetingsCollectionView: UICollectionView {
 
 extension MeetingsCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return datesData.count + 1
+        return (data?.count ?? Int.zero) + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cellID = indexPath.item < datesData.count ? MeetingsCollectionViewCell.reuseID : AddItemCollectionViewCell.reuseID
+        let cellID = indexPath.item < (data?.count ?? Int.zero) ? MeetingCollectionViewCell.reuseID : AddItemCollectionViewCell.reuseID
 
         switch cellID {
-        case MeetingsCollectionViewCell.reuseID:
+        case MeetingCollectionViewCell.reuseID:
             return configureMeetingsCollectionViewCell(indexPath: indexPath)
         case AddItemCollectionViewCell.reuseID:
             return configureAddItemCollectionViewCell(indexPath: indexPath)
@@ -81,18 +93,12 @@ extension MeetingsCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-//        let vc = UIApplication.getTopMostViewController()
-//
-//        if indexPath.item == datesData.count {
-//            let destinationVC = AddMeetingViewController()
-//            destinationVC.modalPresentationStyle = .automatic
-//            vc?.present(destinationVC, animated: true)
-//        } else {
-//            let destinationVC = MeetingViewController()
-//            destinationVC.modalPresentationStyle = .automatic
-//            vc?.present(destinationVC, animated: true)
-//        }
+
+        if indexPath.item == data?.count {
+            meetingDelegate.addMeeting()
+        } else {
+            meetingDelegate.meetingSelected()
+        }
     }
 }
 

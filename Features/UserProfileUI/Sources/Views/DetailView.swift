@@ -15,16 +15,17 @@ class DetailView: UIView {
     
     let descriptionView = DescriptionView()
     var petsView: PetsView
-    let meetingsView = MeetingsView()
+    let meetingsView: MeetingsView
     
     private let firstSeparator = SeparatorView()
     private let secondSeparator = SeparatorView()
     
-    // MARK: - Override functions
+    // MARK: - Initializers
     
-    init(frame: CGRect, petDelegate: PetControllerDelegate) {
+    init(frame: CGRect, petDelegate: PetControllerDelegate, meetingDelegate: MeetingControllerDelegate) {
         
         petsView = PetsView(frame: frame, petDelegate: petDelegate)
+        meetingsView = MeetingsView(frame: frame, meetingDelegate: meetingDelegate)
 
         super.init(frame: frame)
         
@@ -37,6 +38,8 @@ class DetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Override functions
     
     override func layoutSubviews() {
         super.layoutSubviews()

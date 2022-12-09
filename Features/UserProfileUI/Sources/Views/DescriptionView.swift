@@ -60,6 +60,7 @@ class DescriptionView: UIView {
         super.init(frame: frame)
         
         backgroundColor = .white
+        
         setupConstraints()
     }
     

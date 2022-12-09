@@ -9,8 +9,8 @@
 import UIKit
 
 public struct UserDataStruct {
-    var avatar: UIImage
+    var avatar: UIImage?
     var name: String
     var location: String
-    var about: String
+    var about: String?
 }
