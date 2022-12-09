@@ -1,6 +1,6 @@
 import ProjectDescription
 
-let reverseOrganizationName = "com.sonomos"
+let reverseOrganizationName = "ru.coffecode"
 
 let featuresPath = "Features"
 let exampleAppSuffix = "ExampleApp"
@@ -54,7 +54,7 @@ extension Project {
                            targetDependancies: [TargetDependency],
                            moduleTargets: [Module]) -> Project {
         
-        let organizationName = "Sonomos.com"
+        let organizationName = "CoffeAndCode.org"
         var dependencies = moduleTargets.map { TargetDependency.target(name: $0.name) }
         dependencies.append(contentsOf: targetDependancies)
         
@@ -110,7 +110,7 @@ extension Project {
             targets.append(Target(name: "\(module.name)\(exampleAppSuffix)",
                     platform: platform,
                     product: .app,
-                    bundleId: "\(reverseOrganizationName).\(module.name)\(exampleAppSuffix)",
+                    bundleId: "ru.coffeecode.CorgiApp",
                     infoPlist: makeAppInfoPlist(),
                     sources: ["\(exampleSourcesPath)/**"],
                     resources: ResourceFileElements(resources: exampleResourceFilePaths),
@@ -156,7 +156,7 @@ extension Project {
             name: name,
             platform: platform,
             product: .app,
-            bundleId: "\(reverseOrganizationName).\(name)",
+            bundleId: "ru.coffeecode.CorgiApp",
             infoPlist: makeAppInfoPlist(),
             sources: ["\(featuresPath)/\(name)/Sources/**"],
             resources: ["\(featuresPath)/\(name)/Resources/**"

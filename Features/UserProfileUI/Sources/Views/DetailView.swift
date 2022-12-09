@@ -40,7 +40,7 @@ class DetailView: UIView {
     }
     
     // MARK: - Override functions
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         

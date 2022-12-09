@@ -19,6 +19,7 @@ class MeetingsCollectionView: UICollectionView {
         static let sizeForItemAt: CGSize = CGSize(width: 60, height: 80)
     }
     
+
     // MARK: - Properties
     
     private var data: [MeetingDataStruct]? = nil
@@ -27,7 +28,7 @@ class MeetingsCollectionView: UICollectionView {
     // MARK: - Override functions
     
     init(frame: CGRect, meetingDelegate: MeetingControllerDelegate) {
-        
+    
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
@@ -63,6 +64,7 @@ class MeetingsCollectionView: UICollectionView {
     
     private func configureAddItemCollectionViewCell(indexPath: IndexPath) -> AddItemCollectionViewCell {
         let cell = self.dequeueReusableCell(forIndexPath: indexPath) as AddItemCollectionViewCell
+
         return cell
     }
     
@@ -75,6 +77,7 @@ class MeetingsCollectionView: UICollectionView {
 
 extension MeetingsCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         return (data?.count ?? Int.zero) + 1
     }
     

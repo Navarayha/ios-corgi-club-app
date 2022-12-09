@@ -17,15 +17,15 @@ public class LoginViewController: UIViewController {
 
     public var delegate: LoginViewControllerDelegate?
     
-    private let logInButtom = CommonViews.createColorButtonView(title: "log in")
+    private let logInButtom = CCColorButton(title: "log in")
     
-    private let loginView = CommonViews.createTextFieldView(placeholder: "email", isSecure: false)
+    private let loginView = CCTextField(placeholder: "email", isSecure: false, keyboardType: .emailAddress)
     
-    private let passView = CommonViews.createTextFieldView(placeholder: "password", isSecure: true)
+    private let passView = CCTextField(placeholder: "password", isSecure: true, keyboardType: .default)
     
-    private let createAccountButtom = CommonViews.createWhiteButton(title: "create account")
+    private let createAccountButtom = CCWhiteButton(title: "create account")
     
-    private let resetPassButtom = CommonViews.createWhiteButton(title: "reset password")
+    private let resetPassButtom = CCWhiteButton(title: "reset password")
     
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -47,7 +47,7 @@ public class LoginViewController: UIViewController {
         return view
     }()
     
-    private let appNameLabel = CommonViews.CreateLargeTitleLabelView(title: "Corgi club")
+    private let appNameLabel = CCLabel(title: "Corgi club")
     
     private lazy var logoImage: UIImageView = {
         let image = UIImageView()

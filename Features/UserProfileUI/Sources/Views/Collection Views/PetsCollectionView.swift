@@ -18,8 +18,9 @@ class PetsCollectionView: UICollectionView {
         static let minimumLineSpacingForSectionAt: CGFloat = 20.0
         static let sizeForItemAt: CGSize = CGSize(width: 60, height: 80)
     }
-    
+
     private var data: [PetDataStruct]? = nil
+
     private var petDelegate: PetControllerDelegate
     
     // MARK: - Override functions
