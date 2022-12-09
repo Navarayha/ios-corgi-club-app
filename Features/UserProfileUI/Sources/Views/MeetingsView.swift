@@ -34,7 +34,7 @@ class MeetingsView: UIView {
     
     // MARK: - Proporties
     
-    private let collectionView = MeetingsCollectionView()
+    private let collectionView: MeetingsCollectionView
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -46,7 +46,10 @@ class MeetingsView: UIView {
         
     // MARK: - Override functions
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, meetingDelegate: MeetingControllerDelegate) {
+        
+        collectionView = MeetingsCollectionView(frame: frame, meetingDelegate: meetingDelegate)
+
         super.init(frame: frame)
         
         backgroundColor = .white

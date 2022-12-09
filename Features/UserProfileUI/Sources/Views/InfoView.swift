@@ -68,7 +68,6 @@ class InfoView: UIView {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.image = CommonUIAsset.avatar.image
         imageView.layer.borderWidth = Constants.AvatarImageView.borderWidth
         imageView.layer.borderColor = UIColor.systemGray5.cgColor
         imageView.layer.cornerRadius = Constants.AvatarImageView.cornerRadius

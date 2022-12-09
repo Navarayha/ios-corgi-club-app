@@ -8,6 +8,7 @@
 
 import UIKit
 import Common
+import CommonUI
 
 public class UserProfileViewController: UIViewController {
     
@@ -40,8 +41,10 @@ public class UserProfileViewController: UIViewController {
         CGSize(width: view.frame.width, height: view.frame.height + Constants.DetailView.bottomAnchor)
     }
     
-    private var detailView: DetailView?
+    private lazy var data: UserDataStruct? = nil
     
+    private var detailView: DetailView?
+
     private lazy var infoView = InfoView()
     
     private lazy var scrollView: UIScrollView = {
@@ -57,12 +60,14 @@ public class UserProfileViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        detailView = DetailView(frame: .zero, petDelegate: self)
+        detailView = DetailView(frame: .zero, petDelegate: self, meetingDelegate: self)
         
         view.backgroundColor = CommonConstants.View.backgroundColor
         
         setupConfigs()
         setupConstraints()
+        
+        fetchData()
     }
     
     public override func viewDidLayoutSubviews() {
@@ -79,6 +84,10 @@ public class UserProfileViewController: UIViewController {
         // open Profile Edit Controller
     }
     
+    private func fetchData() {
+        // Получить данные и присвоить их переменной data
+    }
+    
     // MARK: Configs
     private func setupConfigs() {
         setupInfoViewConfig()
@@ -86,15 +95,15 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func setupInfoViewConfig() {
-        infoView.avatarImageView.image = userData.avatar
-        infoView.nameLabel.text = userData.name
-        infoView.locationLabel.text = userData.location
+        infoView.avatarImageView.image = data?.avatar ?? CommonUIAsset.avatar.image
+        infoView.nameLabel.text = data?.name
+        infoView.locationLabel.text = data?.location
         infoView.editButton.addTarget(self, action: #selector(editButtonSelected), for: .touchUpInside)
     }
     
     private func setupDetailViewConfig() {
         guard let detailView  = detailView else { return }
-        detailView.descriptionView.aboutLabel.text = userData.about
+        detailView.descriptionView.aboutLabel.text = data?.about
     }
     
     // MARK: Constraints

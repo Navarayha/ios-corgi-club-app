@@ -18,7 +18,9 @@ class PetsCollectionView: UICollectionView {
         static let minimumLineSpacingForSectionAt: CGFloat = 20.0
         static let sizeForItemAt: CGSize = CGSize(width: 60, height: 80)
     }
-    
+
+    private var data: [PetDataStruct]? = nil
+
     private var petDelegate: PetControllerDelegate
     
     // MARK: - Override functions
@@ -32,13 +34,15 @@ class PetsCollectionView: UICollectionView {
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
-        registerCell(PetsCollectionViewCell.self)
+        registerCell(PetCollectionViewCell.self)
         registerCell(AddItemCollectionViewCell.self)
 
         dataSource = self
         delegate = self
         
         showsHorizontalScrollIndicator = false
+        
+        fetchData()
     }
 
     required init?(coder: NSCoder) {
@@ -47,11 +51,11 @@ class PetsCollectionView: UICollectionView {
     
     // MARK: - Functions
     
-    private func configurePetsCollectionViewCell(indexPath: IndexPath) -> PetsCollectionViewCell {
-        let cell = self.dequeueReusableCell(forIndexPath: indexPath) as PetsCollectionViewCell
+    private func configurePetsCollectionViewCell(indexPath: IndexPath) -> PetCollectionViewCell {
+        let cell = self.dequeueReusableCell(forIndexPath: indexPath) as PetCollectionViewCell
         
-        cell.avatarImageView.image = petsData[indexPath.item].avatar
-        cell.nameLabel.text = petsData[indexPath.item].name
+        cell.avatarImageView.image = data?[indexPath.item].avatar
+        cell.nameLabel.text = data?[indexPath.item].name
         
         return cell
     }
@@ -61,21 +65,25 @@ class PetsCollectionView: UICollectionView {
         
         return cell
     }
+    
+    private func fetchData() {
+        // Получить данные и присвоить их переменной data
+    }
 }
 
     // MARK: - UICollectionViewDataSource
 
 extension PetsCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return petsData.count + 1
+        return (data?.count ?? Int.zero) + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cellID = indexPath.item < petsData.count ? PetsCollectionViewCell.reuseID : AddItemCollectionViewCell.reuseID
+        let cellID = indexPath.item < (data?.count ?? Int.zero) ? PetCollectionViewCell.reuseID : AddItemCollectionViewCell.reuseID
 
         switch cellID {
-        case PetsCollectionViewCell.reuseID:
+        case PetCollectionViewCell.reuseID:
             return configurePetsCollectionViewCell(indexPath: indexPath)
         case AddItemCollectionViewCell.reuseID:
             return configureAddItemCollectionViewCell(indexPath: indexPath)
@@ -86,7 +94,7 @@ extension PetsCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        if indexPath.row == petsData.count {
+        if indexPath.row == data?.count {
             petDelegate.addPet()
         } else {
             petDelegate.petSelected()
