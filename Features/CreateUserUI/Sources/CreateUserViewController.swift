@@ -10,7 +10,7 @@ import UIKit
 import Common
 import CommonUI
 import FirebaseAuth
-import FirebaseDatabase
+//import FirebaseDatabase
 
 public class CreateUserViewController: UIViewController {
     
@@ -42,15 +42,17 @@ public class CreateUserViewController: UIViewController {
     
     private let decoder = JSONDecoder()
     
-    private lazy var databasePath: DatabaseReference? = {
-      
-        guard let uid = Auth.auth().currentUser?.uid else {
-        return nil
-      }
-
-      let ref = Database.database().reference().child("users/\(uid)")
-      return ref
-    }()
+//    private lazy var databasePath: DatabaseReference? = {
+//
+////        guard let uid = Auth.auth().currentUser?.uid else {
+////        return nil
+////      }
+////
+////      let ref = Database.database().reference().child("users/\(uid)")
+////      return ref
+//
+//        return nil
+//    }()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,37 +127,37 @@ public class CreateUserViewController: UIViewController {
 //        }
         
         if let name = userNameTextField.text,let secondName = userSecondNameTextField.text, let login = emailTextField.text, let password = passwordTextField.text {
-            Auth.auth().createUser(withEmail: login, password: password) { [self] authDataResult, error in
-
-                // Возвращает ранее определенный путь к базе данных.
-                guard let databasePath = databasePath else {
-                    return
-                }
-
-                // Создает объект Модели user из текста.
-                let user = CCUser(name: name, secondName: secondName, login: login)
-
-                do {
-                    // Кодирует модель user в данные JSON
-                    let data = try encoder.encode(user)
-
-                    // Преобразует данные JSON в словарь JSON
-                    let json = try JSONSerialization.jsonObject(with: data)
-
-                    //  Записывает словарь в путь к базе данных как дочерний узел с автоматически сгенерированным идентификатором.
-                    databasePath.setValue(json)
-
-                    if authDataResult != nil {
-                        //алерт с uid юзера
-                        alert.title = authDataResult?.user.uid
-                        self.present(alert, animated: true, completion: nil)
-                    }
-
-                } catch {
-                    alert.title = error.localizedDescription
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
+//            Auth.auth().createUser(withEmail: login, password: password) { [ self] authDataResult, error in
+//
+//                // Возвращает ранее определенный путь к базе данных.
+//                guard let databasePath = databasePath else {
+//                    return
+//                }
+//
+//                // Создает объект Модели user из текста.
+//                let user = CCUser(name: name, secondName: secondName, login: login)
+//
+//                do {
+//                    // Кодирует модель user в данные JSON
+//                    let data = try encoder.encode(user)
+//
+//                    // Преобразует данные JSON в словарь JSON
+//                    let json = try JSONSerialization.jsonObject(with: data)
+//
+//                    //  Записывает словарь в путь к базе данных как дочерний узел с автоматически сгенерированным идентификатором.
+//                    databasePath.setValue(json)
+//
+//                    if authDataResult != nil {
+//                        //алерт с uid юзера
+//                        alert.title = authDataResult?.user.uid
+//                        self.present(alert, animated: true, completion: nil)
+//                    }
+//
+//                } catch {
+//                    alert.title = error.localizedDescription
+//                    self.present(alert, animated: true, completion: nil)
+//                }
+//            }
         }
         
     }
