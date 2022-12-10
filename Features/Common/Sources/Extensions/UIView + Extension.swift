@@ -12,7 +12,7 @@ extension UIView {
     public func createCustomShadow() {
         // Set masks to bounds to false to avoid the shadow
         // from being clipped to the corner radius
-        self.layer.cornerRadius = CommonConstants.View.cornerRadius
+        self.layer.cornerRadius = CommonConstants.View.bigCornerRadius
         self.layer.masksToBounds = false
         
         // Apply a shadow
