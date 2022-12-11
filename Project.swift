@@ -1,8 +1,12 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
+let appName = "CorgiClubApp"
+let bundleId = "com.freniche"
+let organizationName = "Coffee&Code"
+
 // MARK: - Project
-let project = Project.app(name: "CorgiClubApp",
+let project = Project.app(name: appName,
                           platform: .iOS,
                           externalDependencies: [],
                           targetDependancies: [],
