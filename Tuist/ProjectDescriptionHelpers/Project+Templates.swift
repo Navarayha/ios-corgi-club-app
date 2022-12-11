@@ -1,5 +1,6 @@
 import ProjectDescription
 
+
 let reverseOrganizationName = "ru.coffecode"
 
 let featuresPath = "Features"
@@ -111,24 +112,31 @@ extension Project {
                     platform: platform,
                     product: .app,
                     bundleId: "ru.coffeecode.CorgiApp",
+                    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
                     infoPlist: makeAppInfoPlist(),
                     sources: ["\(exampleSourcesPath)/**"],
                     resources: ResourceFileElements(resources: exampleResourceFilePaths),
-                    dependencies: exampleAppDependancies))
+                    dependencies: exampleAppDependancies)
+            )
         }
     
         if module.targets.contains(.framework) {
             let headers = Headers.headers(public: ["\(frameworkPath)/Sources/**/*.h"])
             
-            targets.append(Target(name: module.name,
-                    platform: platform,
-                    product: .framework,
-                    bundleId: "\(reverseOrganizationName).\(module.name)",
-                    infoPlist: .default,
-                    sources: ["\(frameworkPath)/Sources/**"],
-                    resources: ResourceFileElements(resources: frameworkResourceFilePaths),
-                                  headers: headers,
-                    dependencies: module.frameworkDependancies))
+            var target = Target(name: module.name,
+                           platform: platform,
+                           product: .framework,
+                           bundleId: "\(reverseOrganizationName).\(module.name)",
+                           deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
+                           infoPlist: .default,
+                           sources: ["\(frameworkPath)/Sources/**"],
+                           resources: ResourceFileElements(resources: frameworkResourceFilePaths),
+                           headers: headers,
+                           dependencies: module.frameworkDependancies)
+            
+            targets.append(target)
+                           
+            
         }
         
         // Headers(public: ["\(frameworkPath)/Sources/**/*.h"])
@@ -138,6 +146,7 @@ extension Project {
                     platform: platform,
                     product: .unitTests,
                     bundleId: "\(reverseOrganizationName).\(module.name)Tests",
+                    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
                     infoPlist: .default,
                     sources: ["\(frameworkPath)/Tests/**"],
                     resources: ResourceFileElements(resources: testResourceFilePaths),
@@ -152,21 +161,28 @@ extension Project {
                                       platform: Platform,
                                       dependencies: [TargetDependency]) -> [Target] {
 
+        var baseSettingsDict:ProjectDescription.SettingsDictionary = [:]
+        baseSettingsDict.updateValue(.string("0.1.0"), forKey: "MARKETING_VERSION")
+        baseSettingsDict.updateValue(.string("1"), forKey: "CURRENT_PROJECT_VERSION")
+        baseSettingsDict.updateValue(.string("Corgi Club App"), forKey: "BUNDLE_DISPLAY_NAME")
+        var settings:ProjectDescription.Settings? = ProjectDescription.Settings.settings(base:baseSettingsDict)
+        
         let mainTarget = Target(
             name: name,
             platform: platform,
             product: .app,
             bundleId: "ru.coffeecode.CorgiApp",
+            deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
             infoPlist: makeAppInfoPlist(),
             sources: ["\(featuresPath)/\(name)/Sources/**"],
-            resources: ["\(featuresPath)/\(name)/Resources/**"
-            ],
+            resources: ["\(featuresPath)/\(name)/Resources/**"],
             scripts: [
                 .post(path: "scripts/swiftlint.sh",
                       arguments: ["$SRCROOT", "$TARGETNAME"],
                       name: "SwiftLint")
             ],
-            dependencies: dependencies
+            dependencies: dependencies,
+            settings: settings
         )
 
         let testTarget = Target(
@@ -174,6 +190,7 @@ extension Project {
             platform: platform,
             product: .unitTests,
             bundleId: "\(reverseOrganizationName).\(name)Tests",
+            deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
             infoPlist: .default,
             sources: ["\(featuresPath)/\(name)/Tests/**"],
             resources: ["\(featuresPath)/\(name)/Tests/**/*.json",
