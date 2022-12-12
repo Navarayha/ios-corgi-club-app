@@ -116,7 +116,8 @@ extension Project {
                     infoPlist: makeAppInfoPlist(),
                     sources: ["\(exampleSourcesPath)/**"],
                     resources: ResourceFileElements(resources: exampleResourceFilePaths),
-                    dependencies: exampleAppDependancies)
+                    dependencies: exampleAppDependancies,
+                    settings: createSettings())
             )
         }
     
@@ -161,12 +162,7 @@ extension Project {
                                       platform: Platform,
                                       dependencies: [TargetDependency]) -> [Target] {
 
-        var baseSettingsDict:ProjectDescription.SettingsDictionary = [:]
-        baseSettingsDict.updateValue(.string("0.1.0"), forKey: "MARKETING_VERSION")
-        baseSettingsDict.updateValue(.string("1"), forKey: "CURRENT_PROJECT_VERSION")
-        baseSettingsDict.updateValue(.string("Corgi Club App"), forKey: "BUNDLE_DISPLAY_NAME")
-        var settings:ProjectDescription.Settings? = ProjectDescription.Settings.settings(base:baseSettingsDict)
-        
+    
         let mainTarget = Target(
             name: name,
             platform: platform,
@@ -182,7 +178,7 @@ extension Project {
                       name: "SwiftLint")
             ],
             dependencies: dependencies,
-            settings: settings
+            settings: createSettings()
         )
 
         let testTarget = Target(
@@ -268,5 +264,29 @@ extension Project {
             runAction: uiTestRunAction)
         
         return [asyncTestingScheme, uiTestingScheme]
+    }
+    
+    public static func createSettings() -> ProjectDescription.Settings? {
+        #if arch(x86_64)
+        let projectSettings = ProjectDescription.Settings.settings(
+            base: [
+
+                "MARKETING_VERSION":"0.2.0",
+                "CURRENT_PROJECT_VERSION":"3",
+            ]
+        )
+        #else
+        let projectSettings = ProjectDescription.Settings.settings(
+                base: [
+                    "ONLY_ACTIVE_ARCH": "NO",
+                    "EXCLUDED_ARCHS": "arm64",
+
+                    "MARKETING_VERSION":"0.2.0",
+                    "CURRENT_PROJECT_VERSION":"3",
+                ]
+        )
+        #endif
+        
+        return projectSettings
     }
 }
