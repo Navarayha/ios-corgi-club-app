@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>478422316647-6sgmprj5kb1p12lpbgcg1mjphfhs1ohc.apps.googleusercontent.com</string>
+	<string>1039387702775-llkadoni12p7rannvmsje23loqsmeapq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.478422316647-6sgmprj5kb1p12lpbgcg1mjphfhs1ohc</string>
+	<string>com.googleusercontent.apps.1039387702775-llkadoni12p7rannvmsje23loqsmeapq</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD3CN99i4lqjXZQGzXKOw_9UM4XCp3mXsI</string>
+	<string>AIzaSyAw2kF66Okdm_ham3OgnajBwcimf4hO1TM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>478422316647</string>
+	<string>1039387702775</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sonomos.LoginUIExampleApp</string>
+	<string>ru.coffeecode.CorgiApp</string>
 	<key>PROJECT_ID</key>
-	<string>corgi-club</string>
+	<string>corgiclubapp-9cffb</string>
 	<key>STORAGE_BUCKET</key>
-	<string>corgi-club.appspot.com</string>
+	<string>corgiclubapp-9cffb.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:478422316647:ios:899b2fff5d355ae35546c2</string>
+	<string>1:1039387702775:ios:144b35c58025e1eb25aaf2</string>
 	<key>DATABASE_URL</key>
-	<string>https://corgi-club-default-rtdb.europe-west1.firebasedatabase.app</string>
+	<string>https://corgiclubapp-9cffb-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
