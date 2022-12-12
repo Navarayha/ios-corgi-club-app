@@ -162,7 +162,6 @@ extension Project {
                                       platform: Platform,
                                       dependencies: [TargetDependency]) -> [Target] {
 
-    
         let mainTarget = Target(
             name: name,
             platform: platform,
