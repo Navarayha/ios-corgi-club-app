@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  Common
+//  CommonUI
 //
 //  Created by Микаэл Мартиросян on 06.12.2022.
 //  Copyright © 2022 Sonomos.com. All rights reserved.
@@ -8,12 +8,13 @@
 
 import UIKit
 
-public enum CommonConstants {
+public enum CommonUIConstants {
     
     public enum View {
-        public static let backgroundColor: UIColor = UIColor(red: 1, green: 0.983, blue: 0.96, alpha: 1)
+        
         public static let bigCornerRadius: CGFloat = 32.0
-        public static let smallCornerRaduis: CGFloat = 16.0
+        public static let mediumCornerRadius: CGFloat = 16.0
+        public static let smallCornerRaduis: CGFloat = 8.0
         
         public enum Separator {
             public static let backgroundColor: UIColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1)

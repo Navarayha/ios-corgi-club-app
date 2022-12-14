@@ -126,7 +126,7 @@ class InfoView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonConstants.View.cornerRadius).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonConstants.View.bigCornerRadius).cgPath
     }
     
     // MARK: - Functions

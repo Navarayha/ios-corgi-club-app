@@ -75,7 +75,7 @@ public class UserProfileViewController: UIViewController {
         
         guard let detailView  = detailView else { return }
         
-        detailView.layer.shadowPath = UIBezierPath(roundedRect: detailView.bounds, cornerRadius: CommonConstants.View.cornerRadius).cgPath
+        detailView.layer.shadowPath = UIBezierPath(roundedRect: detailView.bounds, cornerRadius: CommonConstants.View.bigCornerRadius).cgPath
     }
     
     // MARK: - Functions

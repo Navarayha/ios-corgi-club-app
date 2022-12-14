@@ -77,7 +77,7 @@ class DescriptionView: UIView {
     // MARK: - Functions
     
     private func makeMaskLayer() -> CAShapeLayer {
-        let radius = CommonConstants.View.cornerRadius
+        let radius = CommonConstants.View.cornerRadius.bigCornerRadius.rawValue
         let maskPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: radius, height: radius)).cgPath
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.bounds

@@ -14,6 +14,14 @@ class CreateMeetingFormView: UIView {
     // MARK: - Constants
     
     private enum Constants {
+        static let cornerRadius: CGFloat = 16.0
+        static let shadowCornerRaduis: CGFloat = 6.0
+        
+        enum BackButton {
+            static let topAnchor: CGFloat = 25.33
+            static let leadingAnchor: CGFloat = 21.33
+        }
+        
         enum NewMeetingLabel {
             static let fontSize: CGFloat = 20.0
             static let text: String = "Новая встреча"
@@ -28,52 +36,44 @@ class CreateMeetingFormView: UIView {
             static let leadingAnchor: CGFloat = 16.0
             static let trailingAnchor: CGFloat = -16.0
             
-            enum TextField {
-                static let borderColor: CGColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1).cgColor
-                static let borderWidth: CGFloat = 1.0
-                static let cornerRadius: CGFloat = 8.0
-                static let fontSize: CGFloat = 16.0
-                static let textColor: UIColor = UIColor(red: 0.741, green: 0.741, blue: 0.741, alpha: 1)
-                static let textFieldsName: [String] = ["Название встречи", "Дата", "Время", "Место встречи"]
+            enum Picker {
+                static let duration: TimeInterval = 0.3
+                static let datePickerTag: Int = 1
+                static let timeWheelsTag: Int = 2
             }
+        }
+        
+        enum ButtonsStackView {
+            static let spacing: CGFloat = 24.0
+            
+            static let topAnchor: CGFloat = 32.0
+            static let bottomAnchor: CGFloat = -23.0
+            static let leadingAnchor: CGFloat = 17.0
+            static let trailingAnchor: CGFloat = -17.0
         }
     }
     
     // MARK: - Properties
     
-    private let newMeetingLabel: UILabel = {
-        let label = UILabel()
-        label.font = CommonUIFontFamily.Inter.semiBold.font(size: Constants.NewMeetingLabel.fontSize)
-        label.text = Constants.NewMeetingLabel.text
-        label.textColor = .black
-        return label
-    }()
+    private let backButton = CommonUIBackButton()
+    private let cancelButton = CommonUIEmptyButton()
+    private let createButton = CommonUIFilledButton()
     
-    private let arrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = CommonUIAsset.arrow.image
-        return imageView
-    }()
+    private let newMeetingLabel = UILabel()
     
-    private let textFieldsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = Constants.TextFieldsStackView.spacing
-        return stackView
-    }()
+    private lazy var buttonsStackView = UIStackView()
+    private let textFieldsStackView = UIStackView()
+    
+    private var datePickerIsHidden = true
+    private var timeWheelsIsHidden = true
+    
     
     // MARK: - Override functions
     
-    override init(frame: CGRect) {
+    override init(frame: CGRect) {        
         super.init(frame: frame)
-        
-        backgroundColor = .white
-        
-        createCustomShadow()
-        setupConstraints()
-        
-        makeTextFields()
+
+        configuration()
     }
     
     required init?(coder: NSCoder) {
@@ -83,31 +83,174 @@ class CreateMeetingFormView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonConstants.View.smallCornerRaduis).cgPath
+        createCustomShadow(cornerRadius: Constants.shadowCornerRaduis)
+        layer.cornerRadius = Constants.cornerRadius
+    }
+    
+    // MARK: - Configuration
+    
+    private func configuration() {
+        backgroundColor = .white
+        
+        cancelButton.setTitle(CommonButtonsTitlesEnum.cancel.rawValue, for: .normal)
+        
+        createButton.setTitle(CommonButtonsTitlesEnum.create.rawValue, for: .normal)
+        
+        newMeetingLabel.font = CommonUIFontFamily.Inter.semiBold.font(size: Constants.NewMeetingLabel.fontSize)
+        newMeetingLabel.text = Constants.NewMeetingLabel.text
+        
+        textFieldsStackView.axis = .vertical
+        textFieldsStackView.spacing = Constants.TextFieldsStackView.spacing
+        
+        buttonsStackView.addArrangedSubview(cancelButton)
+        buttonsStackView.addArrangedSubview(createButton)
+        buttonsStackView.distribution = .fillEqually
+        buttonsStackView.spacing = Constants.ButtonsStackView.spacing
+        
+        makeTextFields()
+        
+        setupConstraints()
+    }
+    
+    // MARK: - Objective-C functions
+    
+    @objc private func switchDatePicker() {
+        guard let datePicker = findIndex(of: MeetingsTitlesEnum.datePicker) as? UIDatePicker else { return }
+        
+        datePickerIsHidden = !datePickerIsHidden
+        
+        if (timeWheelsIsHidden == false) &&
+            (datePickerIsHidden == false) {
+            switchTimeWheels()
+        }
+        
+                
+        switchPickerWithAnimate(withDuration: Constants.TextFieldsStackView.Picker.duration, picker: datePicker, itemIsHidden: datePickerIsHidden)
+    }
+    
+    @objc private func switchTimeWheels() {
+        guard let timeWheels = findIndex(of: MeetingsTitlesEnum.timeWheels) as? UIDatePicker else { return }
+        
+        timeWheelsIsHidden = !timeWheelsIsHidden
+        
+        if (timeWheelsIsHidden == false) &&
+            (datePickerIsHidden == false) {
+            switchDatePicker()
+        }
+
+        switchPickerWithAnimate(withDuration: Constants.TextFieldsStackView.Picker.duration, picker: timeWheels, itemIsHidden: timeWheelsIsHidden)
+    }
+  
+    #warning("Доделать")
+//    @objc private func switchPicker() {
+//        guard let datePicker = findIndex(of: MeetingsTitlesEnum.datePicker) as? UIDatePicker,
+//              let timeWheels = findIndex(of: MeetingsTitlesEnum.timeWheels) as? UIDatePicker,
+//              let dateLabel = findIndex(of: MeetingsTitlesEnum.date) as? UILabel,
+//              let timeLabel = findIndex(of: MeetingsTitlesEnum.time) as? UILabel
+//        else { return }
+//
+//
+//
+//        if (timeWheels.isHidden == false) &&
+//            (datePicker.isHidden == false) {
+//            switchPicker()
+//        }
+//    }
+    
+    @objc private func datePickerAction(_ datePicker: UIDatePicker) {
+        let dateFormatter = CommonDateFormatterSingleton.shared
+        
+        switch datePicker.tag {
+        case Constants.TextFieldsStackView.Picker.datePickerTag:
+            guard let label = findIndex(of: MeetingsTitlesEnum.date) as? UILabel else { return }
+            
+            let dateFormat = dateFormatter.dateFormatterOfDate
+            label.text = dateFormat.string(from: datePicker.date)
+            label.textColor = .black
+            
+        case Constants.TextFieldsStackView.Picker.timeWheelsTag:
+            guard let label = findIndex(of: MeetingsTitlesEnum.time) as? UILabel else { return }
+            
+            let timeFormat = dateFormatter.dateFormatterOfTime
+            label.text = timeFormat.string(from: datePicker.date)
+            label.textColor = .black
+            
+        default:
+            return
+        }
+        
+        self.endEditing(true)
     }
     
     // MARK: - Functions
     
     private func makeTextFields() {
-        for index in Constants.TextFieldsStackView.TextField.textFieldsName.indices {
-            let textField = UITextField()
-            #warning("Изменить font")
-            textField.font = UIFont(name: "Montserrat-Medium", size: Constants.TextFieldsStackView.TextField.fontSize)
-            textField.layer.borderColor = Constants.TextFieldsStackView.TextField.borderColor
-            textField.layer.cornerRadius = Constants.TextFieldsStackView.TextField.cornerRadius
-            textField.layer.borderWidth = Constants.TextFieldsStackView.TextField.borderWidth
-            textField.placeholder = Constants.TextFieldsStackView.TextField.textFieldsName[index]
-            textField.textAlignment = .left
-            textField.textColor = .black
-//            textField.lef
-            textFieldsStackView.addArrangedSubview(textField)
+        for index in MeetingsTitlesEnum.allCases.indices {
+            
+            switch MeetingsTitlesEnum.allCases[index] {
+            case .date:
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(switchDatePicker))
+                
+                let dateLabel = CommonUICreateFormLabel()
+                dateLabel.addGestureRecognizer(tapGestureRecognizer)
+                dateLabel.text = MeetingsTitlesEnum.date.rawValue
+                
+                textFieldsStackView.addArrangedSubview(dateLabel)
+                
+            case .datePicker:
+                let datePicker = CommonUIDatePicker()
+                datePicker.addTarget(self, action: #selector(datePickerAction(_:)), for: .valueChanged)
+                datePicker.isHidden = datePickerIsHidden
+                datePicker.tag = Constants.TextFieldsStackView.Picker.datePickerTag
+                
+                textFieldsStackView.addArrangedSubview(datePicker)
+                
+            case .time:
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(switchTimeWheels))
+                
+                let timeLabel = CommonUICreateFormLabel()
+                timeLabel.addGestureRecognizer(tapGestureRecognizer)
+                timeLabel.text = MeetingsTitlesEnum.time.rawValue
+                
+                textFieldsStackView.addArrangedSubview(timeLabel)
+                
+            case .timeWheels:
+                let timeWheels = CommonUITimeWheels()
+                timeWheels.addTarget(self, action: #selector(datePickerAction(_:)), for: .valueChanged)
+                timeWheels.isHidden = timeWheelsIsHidden
+                timeWheels.tag = Constants.TextFieldsStackView.Picker.timeWheelsTag
+                
+                textFieldsStackView.addArrangedSubview(timeWheels)
+            
+            default:
+                let textField = CommonUICreateFormTextField()
+                textField.placeholder = MeetingsTitlesEnum.allCases[index].rawValue
+                
+                textFieldsStackView.addArrangedSubview(textField)
+            }
         }
     }
     
+    private func switchPickerWithAnimate(withDuration duration: TimeInterval, picker: UIDatePicker, itemIsHidden: Bool) {
+        UIView.animate(withDuration: duration) {
+            picker.isHidden = itemIsHidden
+        }
+    }
+    
+    private func findIndex(of element: MeetingsTitlesEnum) -> UIView? {
+        guard let index = MeetingsTitlesEnum.allCases.firstIndex(of: element) else { return nil }
+
+        let picker = textFieldsStackView.arrangedSubviews[index]
+        return picker
+    }
+    
+    // MARK: Constraints
+    
     private func setupConstraints() {
         setupNewMeetingLabelContraints()
-        setupArrowImageView()
+        setupBackButtonConstraints()
         setupTextFieldsStackViewContraints()
+        setupButtonsStackViewConstraints()
     }
     
     private func setupNewMeetingLabelContraints() {
@@ -119,12 +262,12 @@ class CreateMeetingFormView: UIView {
         ])
     }
     
-    private func setupArrowImageView() {
-        self.addSubview(arrowImageView)
-        arrowImageView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupBackButtonConstraints() {
+        self.addSubview(backButton)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            arrowImageView.topAnchor.constraint(equalTo: topAnchor, constant: 25.33),
-            arrowImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 21.33)
+            backButton.topAnchor.constraint(equalTo: topAnchor, constant: Constants.BackButton.topAnchor),
+            backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.BackButton.leadingAnchor)
         ])
     }
     
@@ -134,9 +277,18 @@ class CreateMeetingFormView: UIView {
         NSLayoutConstraint.activate([
             textFieldsStackView.topAnchor.constraint(equalTo: newMeetingLabel.bottomAnchor, constant: Constants.TextFieldsStackView.topAnchor),
             textFieldsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.TextFieldsStackView.leadingAnchor),
-            textFieldsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.TextFieldsStackView.trailingAnchor),
-            textFieldsStackView.heightAnchor.constraint(equalToConstant: 268)
+            textFieldsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.TextFieldsStackView.trailingAnchor)
         ])
     }
     
+    private func setupButtonsStackViewConstraints() {
+        self.addSubview(buttonsStackView)
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            buttonsStackView.topAnchor.constraint(equalTo: textFieldsStackView.bottomAnchor, constant: Constants.ButtonsStackView.topAnchor),
+            buttonsStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Constants.ButtonsStackView.bottomAnchor),
+            buttonsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.ButtonsStackView.leadingAnchor),
+            buttonsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.ButtonsStackView.trailingAnchor),
+        ])
+    }
 }

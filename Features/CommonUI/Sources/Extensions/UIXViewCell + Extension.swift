@@ -1,12 +1,13 @@
 //
 //  UIXViewCell + Extension.swift
-//  Common
+//  CommonUI
 //
 //  Created by Микаэл Мартиросян on 17.10.2022.
 //  Copyright © 2022 Sonomos.com. All rights reserved.
 //
 
 import UIKit
+import Common
 
 public extension UICollectionViewCell {
     static var reuseID: String {

@@ -1,6 +1,6 @@
 //
 //  UIColor + Extension.swift
-//  Common
+//  CommonUI
 //
 //  Created by Микаэл Мартиросян on 15.10.2022.
 //  Copyright © 2022 Sonomos.com. All rights reserved.
