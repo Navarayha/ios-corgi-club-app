@@ -28,11 +28,12 @@ public class CreateMeetingController: UIViewController {
         return view
     }()
     
+    #warning("Настроить скролл при открытых пикерах")
     private var contentSize: CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 60)
     }
     
-    private lazy var createMeetingFormView = CreateMeetingFormView()
+    private lazy var createMeetingFormView = CreateMeetingFormView(frame: .zero, delegate: self)
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -50,9 +51,16 @@ public class CreateMeetingController: UIViewController {
         view.backgroundColor = CommonUIAsset.backgroundColor.color
         
         setupConstraints()
+        
     }
     
     // MARK: - Functions
+    
+    func openMapViewController() {
+        let destionationVC = MapViewController()
+//        destionationVC.modalPresentationStyle = .popover
+        present(destionationVC, animated: true)
+    }
     
     private func setupConstraints() {
         setupScrollViewConstraints()
@@ -71,10 +79,12 @@ public class CreateMeetingController: UIViewController {
     private func setupCreateMeetingFormViewContraints() {
         contentView.addSubview(createMeetingFormView)
         createMeetingFormView.translatesAutoresizingMaskIntoConstraints = false
+        
+        #warning("Настроить скролл при открытых пикерах")
         NSLayoutConstraint.activate([
             createMeetingFormView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CreateMeetingFormView.topAnchor),
             createMeetingFormView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.CreateMeetingFormView.leadingAnchor),
-            createMeetingFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.CreateMeetingFormView.trailingAnchor),
+            createMeetingFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.CreateMeetingFormView.trailingAnchor)
 //            createMeetingFormView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16)
         ])
     }

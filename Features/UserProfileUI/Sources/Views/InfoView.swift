@@ -115,7 +115,7 @@ class InfoView: UIView {
     
         backgroundColor = .white
         
-        createCustomShadow()
+        createCustomShadow(cornerRadius: 4)
         setupContraints()
     }
     
@@ -126,7 +126,7 @@ class InfoView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonConstants.View.bigCornerRadius).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonUIConstants.View.bigCornerRadius).cgPath
     }
     
     // MARK: - Functions

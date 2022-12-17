@@ -8,6 +8,7 @@
 
 import UIKit
 import Common
+import CommonUI
 
 class DetailView: UIView {
     
@@ -31,7 +32,8 @@ class DetailView: UIView {
         
         backgroundColor = .clear
         
-        createCustomShadow()
+        #warning("aead")
+        createCustomShadow(cornerRadius: 4)
         setupConstraints()
     }
     
@@ -44,7 +46,7 @@ class DetailView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonConstants.View.bigCornerRadius).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: CommonUIConstants.View.bigCornerRadius).cgPath
     }
     
     // MARK: - Functions

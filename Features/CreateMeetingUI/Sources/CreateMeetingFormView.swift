@@ -59,9 +59,11 @@ class CreateMeetingFormView: UIView {
     private let cancelButton = CommonUIEmptyButton()
     private let createButton = CommonUIFilledButton()
     
+    private var delegate: CreateMeetingController?
+    
     private let newMeetingLabel = UILabel()
     
-    private lazy var buttonsStackView = UIStackView()
+    private  var buttonsStackView = UIStackView()
     private let textFieldsStackView = UIStackView()
     
     private var datePickerIsHidden = true
@@ -70,7 +72,8 @@ class CreateMeetingFormView: UIView {
     
     // MARK: - Override functions
     
-    override init(frame: CGRect) {        
+    init(frame: CGRect, delegate: CreateMeetingController) {
+        self.delegate = delegate
         super.init(frame: frame)
 
         configuration()
@@ -113,6 +116,10 @@ class CreateMeetingFormView: UIView {
     }
     
     // MARK: - Objective-C functions
+    
+    @objc private func placeTextFieldTapped() {
+        delegate?.openMapViewController()
+    }
     
     @objc private func switchDatePicker() {
         guard let datePicker = findIndex(of: MeetingsTitlesEnum.datePicker) as? UIDatePicker else { return }
@@ -164,7 +171,7 @@ class CreateMeetingFormView: UIView {
         case Constants.TextFieldsStackView.Picker.datePickerTag:
             guard let label = findIndex(of: MeetingsTitlesEnum.date) as? UILabel else { return }
             
-            let dateFormat = dateFormatter.dateFormatterOfDate
+            let dateFormat = dateFormatter.dateFormatterOfTime
             label.text = dateFormat.string(from: datePicker.date)
             label.textColor = .black
             
@@ -221,7 +228,14 @@ class CreateMeetingFormView: UIView {
                 timeWheels.tag = Constants.TextFieldsStackView.Picker.timeWheelsTag
                 
                 textFieldsStackView.addArrangedSubview(timeWheels)
-            
+                
+            case .place:
+                let textField = CommonUICreateFormTextField()
+                textField.placeholder = MeetingsTitlesEnum.place.rawValue
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(placeTextFieldTapped))
+                textField.addGestureRecognizer(tapGestureRecognizer)
+                
+                textFieldsStackView.addArrangedSubview(textField)
             default:
                 let textField = CommonUICreateFormTextField()
                 textField.placeholder = MeetingsTitlesEnum.allCases[index].rawValue

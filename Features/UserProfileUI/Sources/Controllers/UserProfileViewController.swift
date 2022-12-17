@@ -45,7 +45,7 @@ public class UserProfileViewController: UIViewController {
     
     private var detailView: DetailView?
 
-    private lazy var infoView = InfoView()
+    private  var infoView = InfoView()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -62,7 +62,7 @@ public class UserProfileViewController: UIViewController {
         
         detailView = DetailView(frame: .zero, petDelegate: self, meetingDelegate: self)
         
-        view.backgroundColor = CommonConstants.View.backgroundColor
+        view.backgroundColor = CommonUIAsset.backgroundColor.color
         
         setupConfigs()
         setupConstraints()
@@ -75,7 +75,7 @@ public class UserProfileViewController: UIViewController {
         
         guard let detailView  = detailView else { return }
         
-        detailView.layer.shadowPath = UIBezierPath(roundedRect: detailView.bounds, cornerRadius: CommonConstants.View.bigCornerRadius).cgPath
+        detailView.layer.shadowPath = UIBezierPath(roundedRect: detailView.bounds, cornerRadius: CommonUIConstants.View.bigCornerRadius).cgPath
     }
     
     // MARK: - Functions

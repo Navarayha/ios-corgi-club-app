@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import Common
+import CommonUI
 
 class SeparatorView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = CommonConstants.View.Separator.backgroundColor
+        backgroundColor = CommonUIConstants.View.Separator.backgroundColor
     }
     
     required init?(coder: NSCoder) {

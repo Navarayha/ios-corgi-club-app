@@ -12,7 +12,7 @@ import Foundation
 public class CommonDateFormatterSingleton {
     
     public static let shared = CommonDateFormatterSingleton()
-    
+
     private init() {}
     
     public let dateFormatterOfDate: DateFormatter = {
@@ -26,4 +26,24 @@ public class CommonDateFormatterSingleton {
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter
     }()
+    
+    
 }
+
+//extension DateFormatter {
+//    
+//    public static var dateFormatterOfDates: DateFormatter {
+//        return DateFormatter.dateFormatterOfDates()
+//    }
+//    
+//    static func dateFormatterOfDates() -> (() -> DateFormatter) {
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "HH:mm"
+//        
+//        return { dateFormatter }
+//        
+//    }
+//    
+//    
+//}
