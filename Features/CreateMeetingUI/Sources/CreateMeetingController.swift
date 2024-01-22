@@ -58,7 +58,7 @@ public class CreateMeetingController: UIViewController {
     
     func openMapViewController() {
         let destionationVC = MapViewController()
-//        destionationVC.modalPresentationStyle = .popover
+//        destionationVC.modalPresentationStyle = .pageSheet
         present(destionationVC, animated: true)
     }
     

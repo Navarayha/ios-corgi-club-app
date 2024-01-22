@@ -68,6 +68,9 @@ class PetsCollectionView: UICollectionView {
     
     private func fetchData() {
         // Получить данные и присвоить их переменной data
+        
+        let mockData = UserProfileMockData()
+        data = mockData.petsMockData
     }
 }
 

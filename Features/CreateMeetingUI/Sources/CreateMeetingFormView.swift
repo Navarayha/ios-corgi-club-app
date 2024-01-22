@@ -63,7 +63,7 @@ class CreateMeetingFormView: UIView {
     
     private let newMeetingLabel = UILabel()
     
-    private  var buttonsStackView = UIStackView()
+    private var buttonsStackView = UIStackView()
     private let textFieldsStackView = UIStackView()
     
     private var datePickerIsHidden = true
